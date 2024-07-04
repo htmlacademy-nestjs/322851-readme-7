@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Сергей Волков](https://up.htmlacademy.ru/nodejs-2/7/user/322851).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Наумов](https://htmlacademy.ru/profile/naumov_evg).
 
 ---
 
