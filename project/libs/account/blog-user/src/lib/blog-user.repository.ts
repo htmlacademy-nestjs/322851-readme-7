@@ -8,4 +8,15 @@ export class BlogUserRepository extends BaseMemoryRepository<BlogUserEntity> {
   constructor(entityFactory: BlogUserFactory) {
     super(entityFactory);
   }
+
+  public async findByEmail(email: string): Promise<BlogUserEntity | null> {
+    const entities = Array.from(this.entities.values());
+    const found_entity = entities.find((entity) => entity.email === email);
+
+    if (! found_entity) {
+      return null;
+    }
+
+    return this.entityFactory.create(found_entity);
+  }
 }

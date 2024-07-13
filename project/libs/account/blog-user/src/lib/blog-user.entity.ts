@@ -24,7 +24,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
     }
   }
 
-  public async setPassword(password: string) {
+  public async setPassword(password: string): Promise<BlogUserEntity> {
     const salt = await genSalt(SALT_ROUNDS);
     this.passwordHash = await hash(password, salt);
     return this;
