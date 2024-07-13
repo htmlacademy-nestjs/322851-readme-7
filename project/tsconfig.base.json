@@ -5,6 +5,7 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -13,6 +14,7 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
       "@project/authentication": ["libs/account/authentication/src/index.ts"],
