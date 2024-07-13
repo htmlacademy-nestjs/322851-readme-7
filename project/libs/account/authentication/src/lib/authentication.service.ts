@@ -25,8 +25,8 @@ export class AuthenticationService {
     }
 
     const userEntity = await new BlogUserEntity(blogUser).setPassword(password);
-
-    return this.blogUserRepsitory.save(userEntity);
+    this.blogUserRepsitory.save(userEntity)
+    return userEntity;
   }
 
   public async verify({ email, password }: LoginUserDto) {
