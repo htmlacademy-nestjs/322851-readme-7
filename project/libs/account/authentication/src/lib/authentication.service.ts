@@ -1,14 +1,20 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { BlogUserEntity, BlogUserRepository } from "@project/blog-user";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { AUTH_USER_EXIST, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from "./authentication.consts";
 import { LoginUserDto } from "../dto/login-user.dto";
+import { dbConfig } from '@project/account-config'
+import { ConfigType } from "@nestjs/config";
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly blogUserRepsitory: BlogUserRepository
-  ) {}
+    private readonly blogUserRepsitory: BlogUserRepository,
+    @Inject(dbConfig.KEY) databaseConfig: ConfigType<typeof dbConfig>
+  ) {
+    console.log(databaseConfig.host);
+    console.log(databaseConfig.user);
+  }
 
   public async register({ name, email, password }: CreateUserDto) {
     const blogUser = {
