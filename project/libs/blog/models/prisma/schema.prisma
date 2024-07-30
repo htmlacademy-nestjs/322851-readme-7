@@ -7,7 +7,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../../../node_modules/.prisma/client"
+  output = "../../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -32,22 +32,17 @@ model Post {
   isPublished Boolean @default(true) @map("is_published")
   isRepost  Boolean @default(false) @map("is_repost")
   originalId String? @map("original_id")
-  originalAuthor String @map("original_author")
+  originalAuthor String? @map("original_author")
   likesCount Int @default(0) @map("likes_count")
   commentsCount Int @default(0) @map("comments_count")
   tags Tag[]
   comments Comment[]
   likes Like[]
   video VideoPost?
-  videoId String? @map("video_id")
   photo PhotoPost?
-  photoId String? @map("photo_id")
   quote QuotePost?
-  quoteId String? @map("quote_id")
   text TextPost?
-  textId String? @map("text_id")
   link LinkPost?
-  linkId String? @map("link_id")
 
   @@map("posts")
 }
@@ -75,6 +70,7 @@ model TextPost {
 model QuotePost {
   id String @id @default(uuid()) @map("id")
   content String
+  author String
   post Post @relation(fields: [postId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   postId String  @map("post_id") @unique
 
