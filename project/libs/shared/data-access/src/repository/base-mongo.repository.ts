@@ -23,6 +23,7 @@ export abstract class BaseMongoRepository<
   }
 
   public async findById(id: T['id']): Promise<T | null> {
+    console.log('In find by id')
     const found_entity = await this.model.findById(id).exec();
 
     if (! found_entity) {

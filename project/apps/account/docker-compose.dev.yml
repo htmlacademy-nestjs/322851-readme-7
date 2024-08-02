@@ -15,6 +15,21 @@ services:
     volumes:
       - readme.mongo.account:/data/db
 
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mongo",
+          "--quiet",
+          "${MONGO_HOST}/test",
+          "--eval",
+          "'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
   readme.user.mongo.ui:
     image: mongo-express:1.0.2-20
     restart: always
