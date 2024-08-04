@@ -12,3 +12,5 @@ export { TextPost } from './lib/interfaces/text-post.interface';
 export { PhotoPost } from './lib/interfaces/photo-post.interface';
 export { Like } from './lib/interfaces/like.interface';
 export { Comment } from './lib/interfaces/comment.interface';
+export { Token } from './lib/interfaces/token.interface';
+export { TokenPayload } from './lib/interfaces/token-payload.interface';

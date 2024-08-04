@@ -35,14 +35,14 @@ export class UserRdo {
     example: '10'
   })
   @Expose()
-  public subscribers_count: number;
+  public subscribersCount: number;
 
   @ApiProperty({
     description: 'The number of post user was created',
     example: '25'
   })
   @Expose()
-  public posts_count: number;
+  public postsCount: number;
 
   @ApiProperty({
     description: 'Registration date',
