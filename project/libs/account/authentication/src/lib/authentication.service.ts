@@ -31,8 +31,7 @@ export class AuthenticationService {
     }
 
     const userEntity = await new BlogUserEntity(blogUser).setPassword(password);
-    console.log(userEntity);
-    this.blogUserRepsitory.save(userEntity)
+    this.blogUserRepsitory.save(userEntity);
     return userEntity;
   }
 
@@ -52,6 +51,8 @@ export class AuthenticationService {
 
   public async getUser(id: string) {
     const existUser = await this.blogUserRepsitory.findById(id);
+
+    console.log('Exist User', existUser);
 
     if (! existUser) {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);

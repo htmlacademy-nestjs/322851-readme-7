@@ -17,25 +17,26 @@ export abstract class BaseMongoRepository<
       return null;
     }
 
-    const plainObject = document.toObject({versionKey: false}) as ReturnType<T['toPOJO']>;
+    const plainObject = document.toObject({getters: true, versionKey: false, flattenObjectIds: true}) as ReturnType<T['toPOJO']>;
 
     return this.entityFactory.create(plainObject);
   }
 
   public async findById(id: T['id']): Promise<T | null> {
-    console.log('In find by id')
-    const found_entity = await this.model.findById(id).exec();
+    const foundEntity = await this.model.findById(id).exec();
 
-    if (! found_entity) {
+    if (! foundEntity) {
       return null;
     }
 
-    return this.createEntityFromDocument(found_entity);
+    return this.createEntityFromDocument(foundEntity);
   }
 
   public async save(entity: T): Promise<void> {
     const newEntity = new this.model(entity.toPOJO());
+    entity.id = newEntity._id.toString();
     await newEntity.save();
+
   }
 
   public async update(entity: T): Promise<void> {
