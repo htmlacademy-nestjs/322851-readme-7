@@ -1,0 +1,19 @@
+# Create new comment
+
+POST http://localhost:3000/blog/0a7cbc9e-9754-4187-ad0f-5b99d4b0814b/comments
+Content-Type: application/json
+
+{
+  "text": "Test comment"
+}
+
+###
+
+# Get all comments of the post
+Get http://localhost:3000/blog/0a7cbc9e-9754-4187-ad0f-5b99d4b0814b/comments
+
+###
+
+#Delete comment
+
+Delete http://localhost:3000/blog/0a7cbc9e-9754-4187-ad0f-5b99d4b0814b/comments/dhjsdhkh

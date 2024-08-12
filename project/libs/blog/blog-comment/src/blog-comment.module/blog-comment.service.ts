@@ -14,6 +14,7 @@ export class BlogCommentService {
   }
 
   public async createComment(dto: CreateCommentDto, postId: string): Promise<BlogCommentEntity> {
+    console.log(dto, postId);
     throw new NotImplementedException();
   }
 

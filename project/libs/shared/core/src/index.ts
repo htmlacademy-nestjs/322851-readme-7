@@ -14,3 +14,7 @@ export { Like } from './lib/interfaces/like.interface';
 export { Comment } from './lib/interfaces/comment.interface';
 export { Token } from './lib/interfaces/token.interface';
 export { TokenPayload } from './lib/interfaces/token-payload.interface';
+export { SortDirection } from './lib/interfaces/sort-direction.interface';
+export { PaginationResult } from './lib/interfaces/pagination-result.interface';
+export { PostType } from './lib/types/post-type.enum';
+export { CommonPost } from './lib/types/common-post.type';

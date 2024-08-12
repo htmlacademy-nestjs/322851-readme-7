@@ -1,0 +1,10 @@
+#create newPost
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+  "type": "PHOTO",
+  "isRepost": false,
+  "userId": "669aef3b7eadb26966f3c2cb",
+  "path": "test.jpg"
+}

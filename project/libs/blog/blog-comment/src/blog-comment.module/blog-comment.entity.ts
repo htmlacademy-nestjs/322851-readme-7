@@ -5,7 +5,7 @@ export class BlogCommentEntity extends Entity implements StorableEntity<Comment>
   userId: string;
   createdAt: Date;
   updatedAt: Date;
-  postId?: string;
+  postId: string;
 
   constructor(comment?: Comment) {
     super();
