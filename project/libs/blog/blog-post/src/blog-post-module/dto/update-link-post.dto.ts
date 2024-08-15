@@ -1,16 +1,15 @@
 import { IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPostValidateMessage } from '../blog-post.consts';
-import { UpdatePostDto } from './update-post.dto';
 
-export class UpdateLinkPostDto extends UpdatePostDto {
+export class UpdateLinkPostDto {
   @ApiProperty({
     description: 'Url of the link',
     example: 'https://up.htmlacademy.ru/profession/fullstack/7/nodejs-2'
   })
   @IsOptional()
   @IsUrl({}, {message: BlogPostValidateMessage.InvalidUrl})
-  url: string;
+  url?: string;
 
   @ApiProperty({
     description: 'Description of the link',

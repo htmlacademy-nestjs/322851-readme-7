@@ -4,7 +4,43 @@ Content-Type: application/json
 
 {
   "type": "PHOTO",
+  "tags": [
+    "#prisma",
+    "#prisma",
+    "#prisma",
+    "#prisma",
+    "#prisma",
+    "#beach"
+  ],
   "isRepost": false,
   "userId": "669aef3b7eadb26966f3c2cb",
-  "path": "test.jpg"
+  "photo": { "path": "example.jpg" }
 }
+
+###
+
+#Get all posts
+
+GET http://localhost:3000/api/posts?limit=2&page=2
+
+###
+
+#Get one post
+GET http://localhost:3000/api/posts/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
+
+###
+
+#Delete post
+DELETE http://localhost:3000/api/posts/69467166-6715-4ddc-b594-12048b6ef7e8
+
+###
+
+#update Post
+PATCH http://localhost:3000/api/posts/e46550db-72ea-4270-9e5b-86660a44d37c
+Content-Type: application/json
+
+{
+ "tags": ["#test"]
+}
+
+###

@@ -5,8 +5,8 @@ import { PaginationResult } from '@project/shared-core';
 import { BlogTagService } from 'libs/blog/blog-tag/src/blog-tag-module/blog-tag.service';
 import { BlogPostFactory } from './blog-post.factory';
 import { BlogPostRepository } from './repositories/blog-post.repository';
-import { CreateCommonPostDto } from './dto/create-common-post.dto';
-import { UpdateCommonPostDto } from './dto/update-common-post.dto';
+import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class BlogPostService {
@@ -23,19 +23,17 @@ export class BlogPostService {
     return this.blogPostRepository.findById(id);
   }
 
-  public async createPost(dto: CreateCommonPostDto): Promise<BlogPostEntity> {
-    //const tags = await this.blogTagService.getTagsByIds(dto.tags);
+  public async createPost(dto: CreatePostDto): Promise<BlogPostEntity> {
+    const tags = await this.blogTagService.findOrCreate(dto.tags);
 
-    const newPost = BlogPostFactory.createNewPost(dto, dto.tags = []);
+    const newPost = BlogPostFactory.createNewPost(dto, tags);
 
     await this.blogPostRepository.save(newPost);
-
-
 
     return newPost;
   }
 
-  public async updatePost(id: string, dto: UpdateCommonPostDto): Promise<BlogPostEntity> {
+  public async updatePost(id: string, dto: UpdatePostDto): Promise<BlogPostEntity> {
     const existsPost = await this.blogPostRepository.findById(id);
     let isSameTags = true;
     let hasChanges = false;
@@ -47,31 +45,29 @@ export class BlogPostService {
       }
 
       if (key === 'tags' && value) {
-        const currentTagsIds = existsPost.tags.map((tag) => tag.id);
-        isSameTags = currentTagsIds.length === value.length && currentTagsIds.some((tagId) => value.includes(tagId));
+        const currentTagsTitles = existsPost.tags.map((tag) => tag.title);
+        isSameTags = currentTagsTitles.length === value.length && currentTagsTitles.every((title) => value.includes(title));
+      }
+    }
+      if (isSameTags && ! hasChanges) {
+              return existsPost
       }
 
       if (! isSameTags) {
-        existsPost.tags = await this.blogTagService.getTagsByIds(dto.tags);
-      }
-
-      if (isSameTags && ! hasChanges) {
-        return existsPost
+        existsPost.tags = await this.blogTagService.findOrCreate(dto.tags);
       }
 
       await this.blogPostRepository.update(existsPost);
 
       return existsPost;
-    }
-
   }
 
   public async deletePost(id: string): Promise<void> {
     try {
       await this.blogPostRepository.deleteById(id);
-    } catch {
+    } catch(err) {
+      console.log(err);
       throw new NotFoundException(`Post with id ${id} not found`);
     }
   }
-
 }

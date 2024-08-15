@@ -1,10 +1,8 @@
-import { CreatePostDto } from './create-post.dto';
 import { IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPostValidateMessage } from '../blog-post.consts';
-import { PostType } from '@prisma/client';
 
-export class CreateTextPostDto extends CreatePostDto {
+export class CreateTextPostDto {
   @ApiProperty({
     description: 'Title of the post',
     example: 'Tset title'
@@ -28,6 +26,4 @@ export class CreateTextPostDto extends CreatePostDto {
   @IsString()
   @Length(100,1024, {message:BlogPostValidateMessage.InvalidTextContent})
   public content: string;
-
-  public type = PostType.TEXT;
 }

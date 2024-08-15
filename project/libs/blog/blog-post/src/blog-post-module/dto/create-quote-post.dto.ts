@@ -1,10 +1,9 @@
-import { CreatePostDto } from './create-post.dto';
 import { IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPostValidateMessage } from '../blog-post.consts';
-import { $Enums, PostType } from '@prisma/client';
 
-export class CreateQuotePostDto extends CreatePostDto {
+
+export class CreateQuotePostDto {
   @ApiProperty({
     description: 'Text of the quote',
     example: 'You know nothing, Jon Snow'
@@ -20,6 +19,4 @@ export class CreateQuotePostDto extends CreatePostDto {
   @IsString()
   @Length(3, 50, {message: BlogPostValidateMessage.InvalidQuoteAuthor})
   public author: string;
-
-  public type = PostType.QUOTE;
 }

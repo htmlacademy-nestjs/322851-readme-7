@@ -26,7 +26,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
   public async save(entity: BlogPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
-    console.log(entity);
+
     const record = await this.client.post.create({
       data: {
         type: pojoEntity.type as PostType,
@@ -99,7 +99,13 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
           link: true,
           quote: true,
           text: true,
-          photo: true
+          photo: true,
+          _count: {
+            select: {
+              comments: true,
+              likes: true,
+            },
+          },
         }
       }),
       this.getPostCount(where),
@@ -126,7 +132,13 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         link: true,
         quote: true,
         text: true,
-        photo: true
+        photo: true,
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          }
+        }
       }
     });
 
@@ -155,6 +167,55 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         tags: {
           connect: pojoEntity.tags.map(({id}) => ({ id }))
         },
+        video: entity.video ? {
+          update: {
+            where: {
+              id: entity.video.id
+            },
+            data: {
+              url: entity.video.url
+            }
+          }} : undefined,
+          photo: entity.photo ? {
+            update: {
+              where: {
+                id: entity.photo.id
+              },
+              data: {
+                path: entity.photo.path
+              }
+            }} : undefined,
+            quote: entity.quote ? {
+              update: {
+                where: {
+                  id: entity.quote.id
+                },
+                data: {
+                  author: entity.quote.author,
+                  content: entity.quote.content
+                }
+              }} : undefined,
+              link: entity.link ? {
+                update: {
+                  where: {
+                    id: entity.link.id
+                  },
+                  data: {
+                    url: entity.link.url,
+                    description: entity.link.description
+                  }
+                }} : undefined,
+                text: entity.text ? {
+                  update: {
+                    where: {
+                      id: entity.text.id
+                    },
+                    data: {
+                      content: entity.text.content,
+                      title: entity.text.title,
+                      preview: entity.text.preview
+                    }
+                  }} : undefined
       },
       include: {
         likes: true,
@@ -163,6 +224,13 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         quote: true,
         text: true,
         photo: true,
+
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        }
       }
     });
   }

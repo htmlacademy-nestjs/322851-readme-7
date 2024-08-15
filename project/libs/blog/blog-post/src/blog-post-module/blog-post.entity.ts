@@ -38,9 +38,14 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       this.isRepost = post.isRepost ?? false;
       this.originalId = post.originalId ?? undefined;
       this.originalAuthor = post.originalAuthor ?? undefined;
-      this.commentsCount = post.commentsCount ?? 0;
-      this.likesCount = post.likesCount ?? 0;
-      this.tags = [];
+      this.commentsCount = post._count.comments ?? undefined;
+      this.likesCount = post._count.likes ?? undefined;
+      this.tags = post.tags;
+      this.video = post.video  ?? undefined;
+      this.photo = post.photo  ?? undefined;
+      this.link = post.link  ?? undefined;
+      this.quote = post.quote  ?? undefined;
+      this.text = post.text  ?? undefined;
     }
   }
 

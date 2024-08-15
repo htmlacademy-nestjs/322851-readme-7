@@ -6,5 +6,4 @@ export interface TextPost {
   preview: string;
   content: string;
   post?: Post;
-  postId?: string;
 }

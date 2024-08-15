@@ -5,5 +5,4 @@ export interface QuotePost {
   content: string;
   author: string;
   post?: Post;
-  postId?: string;
 }

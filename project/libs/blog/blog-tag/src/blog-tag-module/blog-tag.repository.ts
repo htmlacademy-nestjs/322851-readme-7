@@ -3,10 +3,10 @@ import { BlogTagEntity } from './blog-tag.entity';
 import { Tag } from '@project/shared-core';
 import { PrismaClientService } from '@project/blog-models';
 import { BlogTagFactory } from './blog-tag.factory';
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TagFilter, tagFilterToPrismaFilter } from './blog-tag.filter';
 
-
+@Injectable()
 export class BlogTagRepository extends BasePostgresRepository<BlogTagEntity, Tag> {
   constructor(
     entityFactory: BlogTagFactory,
@@ -58,6 +58,29 @@ export class BlogTagRepository extends BasePostgresRepository<BlogTagEntity, Tag
 
     return records.map((record) => this.createEntityFromDocument(record));
   }
+
+  public async findByTitles(titles: string[]): Promise<BlogTagEntity[]> {
+    const records = await this.client.tag.findMany({
+      where: {
+        title: {
+          in: titles,
+        }
+      }
+    });
+
+    return records.map((record) => this.createEntityFromDocument(record));
+  }
+
+  public async createMany(tags: Tag[]): Promise<BlogTagEntity[]> {
+    const records = await this.client.tag.createManyAndReturn({
+      data: [
+        ...tags
+      ]
+    });
+
+    return records.map((record) => this.createEntityFromDocument(record));
+  }
+
 }
 
 

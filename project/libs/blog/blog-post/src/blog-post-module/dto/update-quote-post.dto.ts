@@ -1,9 +1,8 @@
 import { IsOptional, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPostValidateMessage } from '../blog-post.consts';
-import { UpdatePostDto } from './update-post.dto';
 
-export class UpdateQuotePostDto extends UpdatePostDto {
+export class UpdateQuotePostDto {
   @ApiProperty({
     description: 'Text of the quote',
     example: 'You know nothing, Jon Snow'
@@ -11,7 +10,7 @@ export class UpdateQuotePostDto extends UpdatePostDto {
   @IsString()
   @IsOptional()
   @Length(20, 300, {message: BlogPostValidateMessage.InvalidQuoteContent})
-  content: string;
+  content?: string;
 
   @ApiProperty({
     description: 'Author of the quote',
@@ -20,5 +19,5 @@ export class UpdateQuotePostDto extends UpdatePostDto {
   @IsString()
   @IsOptional()
   @Length(3, 50, {message: BlogPostValidateMessage.InvalidQuoteAuthor})
-  author: string;
+  author?: string;
 }

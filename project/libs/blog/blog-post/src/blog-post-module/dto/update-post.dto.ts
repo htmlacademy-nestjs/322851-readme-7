@@ -1,17 +1,14 @@
-import { IsBoolean, IsIn, IsMongoId, IsString, IsUUID, IsOptional, IsArray } from 'class-validator';
-import { PostType } from '@prisma/client';
+import { IsBoolean, IsMongoId, IsString, IsUUID, IsOptional, IsArray, ValidateNested, ArrayMaxSize, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPostValidateMessage } from '../blog-post.consts';
+import { Type } from 'class-transformer';
+import { UpdateTextPostDto } from './update-text-post.dto';
+import { UpdateVideoPostDto } from './update-video-post.dto';
+import { UpdatePhotoPostDto } from './update-photo-post.dto';
+import { UpdateQuotePostDto } from './update-quote-post.dto';
+import { UpdateLinkPostDto } from './update-link-post.dto';
 
 export class UpdatePostDto {
-  @ApiProperty({
-    description: 'One of the five type: video, photo, text, link, quote',
-    example: 'Video'
-  })
-  @IsOptional()
-  @IsIn(Object.values(PostType), {message: BlogPostValidateMessage.WrongType})
-  public type: PostType;
-
   @ApiProperty({
     description: 'Repost flag',
     example: 'true'
@@ -42,6 +39,33 @@ export class UpdatePostDto {
     example: ['#js', '#helloworld']
   })
   @IsArray()
+  @ArrayMaxSize(8, {message: BlogPostValidateMessage.TagCount})
+  @IsString({each: true})
+  @Length(3, 10, {each: true, message: BlogPostValidateMessage.TagLength })
+  public tags?: string[]
+
+  @ValidateNested()
   @IsOptional()
-  public tags: string[]
+  @Type(() => UpdateTextPostDto)
+  public text?: UpdateTextPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdateVideoPostDto)
+  public video?: UpdateVideoPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdatePhotoPostDto)
+  public photo?: UpdatePhotoPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdateLinkPostDto)
+  public link?: UpdateLinkPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdateQuotePostDto)
+  public quote?: UpdateQuotePostDto;
 }

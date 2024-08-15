@@ -1,9 +1,8 @@
 import { IsOptional, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPostValidateMessage } from '../blog-post.consts';
-import { UpdatePostDto } from './update-post.dto';
 
-export class UpdateTextPostDto extends UpdatePostDto {
+export class UpdateTextPostDto {
   @ApiProperty({
     description: 'Title of the post',
     example: 'Tset title'
@@ -11,7 +10,7 @@ export class UpdateTextPostDto extends UpdatePostDto {
   @IsOptional()
   @IsString()
   @Length(20,50, {message:BlogPostValidateMessage.InvalidTextTitle})
-  title: string;
+  title?: string;
 
   @ApiProperty({
     description: 'Short description of the post',
@@ -20,7 +19,7 @@ export class UpdateTextPostDto extends UpdatePostDto {
   @IsOptional()
   @IsString()
   @Length(50, 255, {message:BlogPostValidateMessage.InvalidTextPreview})
-  preview: string;
+  preview?: string;
 
   @ApiProperty({
     description: 'Text of the post',
@@ -29,5 +28,5 @@ export class UpdateTextPostDto extends UpdatePostDto {
   @IsOptional()
   @IsString()
   @Length(100,1024, {message:BlogPostValidateMessage.InvalidTextContent})
-  content: string;
+  content?: string;
 }

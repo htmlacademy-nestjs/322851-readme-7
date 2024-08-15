@@ -1,6 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { TagRdo } from '@project/blog-tag';
+import { VideoPostRdo } from './blog-video-post.rdo';
+import { QuotePostRdo } from './blog-quote-post.rdo';
+import { LinkPostRdo } from './blog-link-post.rdo';
+import { PhotoPostRdo } from './blog-photo-post.rdo';
+import { TextPostRdo } from './blog-text-post.rdo';
 
 export class BlogPostRdo {
   @ApiProperty({
@@ -129,4 +134,44 @@ export class BlogPostRdo {
   })
   @Expose()
   public userId: string;
+
+  @ApiProperty({
+    description: 'Author of the post id',
+    example: '669aef3b7eadb26966f3c2cb'
+  })
+  @Expose()
+  @Type(() => VideoPostRdo)
+  public video?: VideoPostRdo;
+
+  @ApiProperty({
+    description: 'Author of the post id',
+    example: '669aef3b7eadb26966f3c2cb'
+  })
+  @Expose()
+  @Type(() => QuotePostRdo)
+  public quote?: QuotePostRdo;
+
+  @ApiProperty({
+    description: 'Author of the post id',
+    example: '669aef3b7eadb26966f3c2cb'
+  })
+  @Expose()
+  @Type(() => LinkPostRdo)
+  public link?: LinkPostRdo;
+
+  @ApiProperty({
+    description: 'Author of the post id',
+    example: '669aef3b7eadb26966f3c2cb'
+  })
+  @Expose()
+  @Type(() => PhotoPostRdo)
+  public photo?: PhotoPostRdo;
+
+  @ApiProperty({
+    description: 'Author of the post id',
+    example: '669aef3b7eadb26966f3c2cb'
+  })
+  @Expose()
+  @Type(() => TextPostRdo)
+  public text?: TextPostRdo;
 }

@@ -11,14 +11,9 @@ CREATE TABLE "posts" (
     "is_published" BOOLEAN NOT NULL DEFAULT true,
     "is_repost" BOOLEAN NOT NULL DEFAULT false,
     "original_id" TEXT,
-    "original_author" TEXT NOT NULL,
+    "original_author" TEXT,
     "likes_count" INTEGER NOT NULL DEFAULT 0,
     "comments_count" INTEGER NOT NULL DEFAULT 0,
-    "video_id" TEXT,
-    "photo_id" TEXT,
-    "quote_id" TEXT,
-    "text_id" TEXT,
-    "link_id" TEXT,
 
     CONSTRAINT "posts_pkey" PRIMARY KEY ("id")
 );
@@ -47,6 +42,7 @@ CREATE TABLE "text_posts" (
 CREATE TABLE "quote_posts" (
     "id" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "author" TEXT NOT NULL,
     "post_id" TEXT NOT NULL,
 
     CONSTRAINT "quote_posts_pkey" PRIMARY KEY ("id")
@@ -56,7 +52,6 @@ CREATE TABLE "quote_posts" (
 CREATE TABLE "photo_posts" (
     "id" TEXT NOT NULL,
     "path" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
     "post_id" TEXT NOT NULL,
 
     CONSTRAINT "photo_posts_pkey" PRIMARY KEY ("id")
@@ -133,19 +128,19 @@ CREATE UNIQUE INDEX "_PostToTag_AB_unique" ON "_PostToTag"("A", "B");
 CREATE INDEX "_PostToTag_B_index" ON "_PostToTag"("B");
 
 -- AddForeignKey
-ALTER TABLE "video_posts" ADD CONSTRAINT "video_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "video_posts" ADD CONSTRAINT "video_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "text_posts" ADD CONSTRAINT "text_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "text_posts" ADD CONSTRAINT "text_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "quote_posts" ADD CONSTRAINT "quote_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "quote_posts" ADD CONSTRAINT "quote_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "photo_posts" ADD CONSTRAINT "photo_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "photo_posts" ADD CONSTRAINT "photo_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "link_posts" ADD CONSTRAINT "link_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "link_posts" ADD CONSTRAINT "link_posts_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "comments" ADD CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;

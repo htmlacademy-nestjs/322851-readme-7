@@ -20,4 +20,13 @@ export interface Post {
   link?: LinkPost;
   quote?: QuotePost;
   text?: TextPost;
+  videoId?: string;
+  photoId?: string;
+  linkId?: string;
+  quoteId?: string;
+  textId?: string;
+  _count?: {
+    comments: number;
+    likes: number;
+  }
 }

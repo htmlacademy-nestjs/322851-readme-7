@@ -1,8 +1,13 @@
-import { IsBoolean, IsIn, IsMongoId, IsString, IsUUID, IsOptional, IsArray } from 'class-validator';
+import { IsBoolean, IsIn, IsMongoId, IsString, IsUUID, IsOptional, IsArray, ValidateNested, ArrayMaxSize, Length } from 'class-validator';
 import { PostType } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPostValidateMessage } from '../blog-post.consts';
-import { Tag } from '@project/shared-core';
+import { Type } from 'class-transformer';
+import { CreateTextPostDto } from './create-text-post.dto';
+import { CreatePhotoPostDto } from './create-photo-post.dto';
+import { CreateVideoPostDto } from './create-video-post.dto';
+import { CreateLinkPostDto } from './create-link-post.dto';
+import { CreateQuotePostDto } from './create-quote-post.dto';
 
 export class CreatePostDto {
   @ApiProperty({
@@ -42,8 +47,10 @@ export class CreatePostDto {
     example: ['#js', '#helloworld']
   })
   @IsArray()
-  @IsOptional()
-  public tags: Tag[]
+  @ArrayMaxSize(8, {message: BlogPostValidateMessage.TagCount})
+  @IsString({each: true})
+  @Length(3, 10, {each: true, message: BlogPostValidateMessage.TagLength })
+  public tags: string[]
 
   @ApiProperty({
     description: 'Id of the owner of the post',
@@ -51,4 +58,29 @@ export class CreatePostDto {
   })
   @IsMongoId({message: BlogPostValidateMessage.InvalidUserId})
   public userId: string;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => CreateTextPostDto)
+  public text?: CreateTextPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => CreateVideoPostDto)
+  public video?: CreateVideoPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => CreatePhotoPostDto)
+  public photo?: CreatePhotoPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => CreateLinkPostDto)
+  public link?: CreateLinkPostDto;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => CreateQuotePostDto)
+  public quote?: CreateQuotePostDto;
 }

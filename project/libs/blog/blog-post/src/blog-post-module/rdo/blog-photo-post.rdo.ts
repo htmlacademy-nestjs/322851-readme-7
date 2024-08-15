@@ -1,11 +1,12 @@
-import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Expose, Type } from 'class-transformer';
+import { TagRdo } from '@project/blog-tag';
 
-export class CreatePhotoPostDto {
+export class PhotoPostRdo {
   @ApiProperty({
     description: 'Path to the image',
     example: 'example.jpg'
   })
-  @IsString()
+  @Expose()
   public path: string;
 }

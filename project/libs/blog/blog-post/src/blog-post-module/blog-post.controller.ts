@@ -6,9 +6,8 @@ import { fillDto } from '@project/shared-helpers'
 import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BlogPostResponse } from './blog-post.consts';
-import { UpdateCommonPostDto } from './dto/update-common-post.dto';
-import { CreateCommonPostDto } from './dto/create-common-post.dto';
-
+import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @ApiTags('blog post')
 @Controller('/posts')
@@ -25,12 +24,12 @@ export class BlogPostController {
   public async index(@Query() query: BlogPostQuery) {
     const postWithPagination = await this.blogPostService.getAll(query);
 
-    const result = {
+    const post = {
       ...postWithPagination,
-      entities: postWithPagination.entities.map((entity) => entity.toPOJO())
+      entities: postWithPagination.entities.map((post) => post.toPOJO())
     }
 
-    return fillDto(BlogPostWithPaginationRdo, result);
+    return fillDto(BlogPostWithPaginationRdo, post);
   }
 
   @ApiResponse({
@@ -53,7 +52,7 @@ export class BlogPostController {
     description: BlogPostResponse.PostCreated
   })
   @Post('/')
-  public async create(@Body() dto: CreateCommonPostDto) {
+  public async create(@Body() dto: CreatePostDto) {
     const newPost = await this.blogPostService.createPost(dto);
 
     return fillDto(BlogPostRdo, newPost.toPOJO());
@@ -72,7 +71,7 @@ export class BlogPostController {
     description: BlogPostResponse.PostNotFound
   })
   @Patch('/:id')
-  public async update(@Param('id') id: string, @Body() dto: UpdateCommonPostDto) {
+  public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const post = await this.blogPostService.updatePost(id, dto);
 
     return fillDto(BlogPostRdo, post.toPOJO());

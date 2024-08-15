@@ -4,6 +4,4 @@ export interface PhotoPost {
   id?: string;
   path: string;
   post?: Post;
-  postId?: string;
-
 }

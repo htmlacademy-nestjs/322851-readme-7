@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { BlogPostRdo } from './blog-post.rdo';
 
 export class BlogPostWithPaginationRdo {
   @ApiProperty({
@@ -7,7 +8,8 @@ export class BlogPostWithPaginationRdo {
     example: ['Post1', 'Post2']
   })
   @Expose()
-  public entities: [];
+  @Type(() => BlogPostRdo)
+  public entities: BlogPostRdo[];
 
   @ApiProperty({
     description: 'Total page count of selected entity',

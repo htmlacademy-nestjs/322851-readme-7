@@ -23,3 +23,9 @@ export function fillDto<T, V>(
 export function getMongoDbString({username, password, host, dbName, port, authDb}): string {
   return `mongodb://${username}:${password}@${host}:${port}/${dbName}?authSource=${authDb}`;
 }
+
+
+export function getArrayOfUniques<T>(arr: T[]): T[] {
+  const set = new Set(arr);
+  return Array.from(set);
+}
