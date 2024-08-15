@@ -7,4 +7,5 @@ export class BlogCommentFactory implements EntityFactory<BlogCommentEntity> {
   public create(entityPlainData: Comment): BlogCommentEntity {
     return new BlogCommentEntity(entityPlainData);
   }
+
 }

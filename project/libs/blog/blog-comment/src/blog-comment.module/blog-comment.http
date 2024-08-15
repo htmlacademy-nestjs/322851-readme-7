@@ -1,19 +1,20 @@
 # Create new comment
 
-POST http://localhost:3000/blog/0a7cbc9e-9754-4187-ad0f-5b99d4b0814b/comments
+POST http://localhost:3000/api/comments/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
 Content-Type: application/json
 
 {
-  "text": "Test comment"
+  "text": "Test comment",
+  "userId": "669aef3b7eadb26966f3c2cb"
 }
 
 ###
 
 # Get all comments of the post
-Get http://localhost:3000/blog/0a7cbc9e-9754-4187-ad0f-5b99d4b0814b/comments
+Get http://localhost:3000/api/comments/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
 
 ###
 
 #Delete comment
 
-Delete http://localhost:3000/blog/0a7cbc9e-9754-4187-ad0f-5b99d4b0814b/comments/dhjsdhkh
+Delete http://localhost:3000/api/comments/987665c8-059b-4b09-9339-b4ac9184f974
