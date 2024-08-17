@@ -54,7 +54,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       },
       include: {
           tags: true,
-          likes: true,
           video: true,
           link: true,
           quote: true,
@@ -94,7 +93,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         take,
         include: {
           tags: true,
-          likes: true,
           video: true,
           link: true,
           quote: true,
@@ -127,7 +125,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       },
       include: {
         tags: true,
-        likes: true,
         video: true,
         link: true,
         quote: true,
@@ -218,7 +215,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
                   }} : undefined
       },
       include: {
-        likes: true,
         video: true,
         link: true,
         quote: true,

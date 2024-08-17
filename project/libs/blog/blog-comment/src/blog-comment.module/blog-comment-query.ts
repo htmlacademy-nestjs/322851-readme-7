@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { DEFAULT_COMMENT_COUNT_LIMIT, DEFAULT_PAGE_COUNT, DEFAULT_SORT_DIRECTION } from "./blog-comment.module/blog-comment.consts";
+import { DEFAULT_COMMENT_COUNT_LIMIT, DEFAULT_PAGE_COUNT, DEFAULT_SORT_DIRECTION } from "./blog-comment.consts";
 import { IsArray, IsIn, IsNumber, IsOptional, IsUUID } from "class-validator";
 import { SortDirection } from "@project/shared-core";
 

@@ -34,7 +34,6 @@ export class BlogTagService {
       const foundTags = tags.map((tag) => tag.title);
       const notFoundTags = titles.filter((title) => !foundTags.includes(title));
 
-      console.log('not found tags', notFoundTags);
       if (notFoundTags.length > 0) {
         const newTitles = notFoundTags.map((title) => ({title}));
         const documents = await this.blogTagRepository.createMany(newTitles);

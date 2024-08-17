@@ -49,12 +49,13 @@ export class BlogPostService {
         isSameTags = currentTagsTitles.length === value.length && currentTagsTitles.every((title) => value.includes(title));
       }
     }
+
       if (isSameTags && ! hasChanges) {
-              return existsPost
+        return existsPost
       }
 
       if (! isSameTags) {
-        existsPost.tags = await this.blogTagService.findOrCreate(dto.tags);
+        existsPost.tags = await this.blogTagService.findOrCreate([...dto.tags, ...existsPost.tags.map((tag) => tag.title)]);
       }
 
       await this.blogPostRepository.update(existsPost);

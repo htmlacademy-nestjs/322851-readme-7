@@ -1,13 +1,12 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
-import { BlogCommentService } from './blog-comment.module/blog-comment.service';
+import { BlogCommentService } from './blog-comment.service';
 import { fillDto } from '@project/shared-helpers';
-import { BlogCommentRdo } from './blog-comment.module/rdo/blog-comment.rdo';
-import { CreateCommentDto } from './blog-comment.module/dto/create-comment.dto';
+import { BlogCommentRdo } from './rdo/blog-comment.rdo';
+import { CreateCommentDto } from './dto/create-comment.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { BlogCommentRespose } from './blog-comment.module/blog-comment.consts';
+import { BlogCommentRespose } from './blog-comment.consts';
 import { BlogCommentQuery } from './blog-comment-query';
-import { BlogCommentWithPaginationRdo } from './blog-comment.module/rdo/blog-comment-wtih-pagination';
-
+import { BlogCommentWithPaginationRdo } from './rdo/blog-comment-wtih-pagination';
 
 @ApiTags('blog comment')
 @Controller('/comments')
@@ -17,6 +16,7 @@ export class BlogCommentController {
   ) {}
 
   @ApiResponse({
+    type: BlogCommentWithPaginationRdo,
     status: HttpStatus.OK,
     description: BlogCommentRespose.CommentsFound
   })
@@ -35,6 +35,7 @@ export class BlogCommentController {
   }
 
   @ApiResponse({
+    type: BlogCommentRdo,
     status: HttpStatus.CREATED,
     description: BlogCommentRespose.CommentCreated
   })

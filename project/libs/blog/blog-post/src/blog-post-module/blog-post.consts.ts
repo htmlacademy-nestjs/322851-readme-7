@@ -28,5 +28,8 @@ export const BlogPostResponse = {
   PostCreated: 'New post successfully created',
   PostUpdated: 'Post was successfully updated',
   NotAuthorized: 'You have no rights to alter that post',
-  PostDeleted: 'Post was successfully deleted'
+  PostDeleted: 'Post was successfully deleted',
+  GetLogin: 'Login to like the post',
+  LikeAdded: 'Successfully add new like',
+  LikeRemoved: 'Successfully remove new like'
 }

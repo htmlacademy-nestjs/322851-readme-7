@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BlogCommentEntity } from './blog-comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { BlogCommentQuery } from '../blog-comment-query';
+import { BlogCommentQuery } from './blog-comment-query';
 import { PaginationResult } from '@project/shared-core';
 import { BlogCommentFactory } from './blog-comment.factory';
 import { BlogCommentRepository } from './blog-comment.repository';

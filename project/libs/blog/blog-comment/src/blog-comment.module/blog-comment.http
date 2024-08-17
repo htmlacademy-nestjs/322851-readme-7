@@ -4,7 +4,7 @@ POST http://localhost:3000/api/comments/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
 Content-Type: application/json
 
 {
-  "text": "Test comment",
+  "text": "Another Test comment",
   "userId": "669aef3b7eadb26966f3c2cb"
 }
 

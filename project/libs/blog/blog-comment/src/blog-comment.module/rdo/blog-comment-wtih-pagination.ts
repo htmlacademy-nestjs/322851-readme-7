@@ -5,7 +5,7 @@ import { BlogCommentRdo } from "./blog-comment.rdo";
 export class BlogCommentWithPaginationRdo {
   @ApiProperty({
     description: 'List of items of selected Entity',
-    example: ['Post1', 'Post2']
+    example: [{text: 'comment1', userId: '669aef3b7eadb26966f3c2cb'}, {text: 'comment2', userId: '669aef3b7eadb26966f3c2cb'}]
   })
   @Expose()
   @Type(() => BlogCommentRdo)

@@ -4,7 +4,7 @@ import { Comment, PaginationResult } from '@project/shared-core';
 import { BlogCommentFactory } from './blog-comment.factory';
 import { PrismaClientService } from '@project/blog-models';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { BlogCommentQuery } from '../blog-comment-query';
+import { BlogCommentQuery } from './blog-comment-query';
 import { Prisma } from '@prisma/client';
 
 @Injectable()

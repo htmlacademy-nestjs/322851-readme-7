@@ -8,15 +8,19 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BlogPostResponse } from './blog-post.consts';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { BlogLikeService } from 'libs/blog/blog-like/src/blog-like-module/blog-like.service';
+import { BlogLikeDto } from '@project/blog-like';
 
 @ApiTags('blog post')
 @Controller('/posts')
 export class BlogPostController {
   constructor(
-    private readonly blogPostService: BlogPostService
+    private readonly blogPostService: BlogPostService,
+    private readonly blogLikeService: BlogLikeService
   ) {}
 
   @ApiResponse({
+    type: BlogPostWithPaginationRdo,
     status: HttpStatus.OK,
     description: BlogPostResponse.PostsFound
   })
@@ -33,6 +37,7 @@ export class BlogPostController {
   }
 
   @ApiResponse({
+    type: BlogPostRdo,
     status: HttpStatus.OK,
     description: BlogPostResponse.PostFound
   })
@@ -48,6 +53,7 @@ export class BlogPostController {
   }
 
   @ApiResponse({
+    type: BlogPostRdo,
     status: HttpStatus.CREATED,
     description: BlogPostResponse.PostCreated
   })
@@ -59,6 +65,7 @@ export class BlogPostController {
   }
 
   @ApiResponse({
+    type: BlogPostRdo,
     status: HttpStatus.ACCEPTED,
     description: BlogPostResponse.PostUpdated
   })
@@ -93,6 +100,42 @@ export class BlogPostController {
   @HttpCode(HttpStatus.NO_CONTENT)
   public async delete(@Param('id') id: string) {
     await this.blogPostService.deletePost(id)
+  }
+
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: BlogPostResponse.LikeAdded
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: BlogPostResponse.GetLogin
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: BlogPostResponse.PostNotFound
+  })
+  @Post('like/:postId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async saveLike(@Param('postId') postId: string, @Body() {userId}: BlogLikeDto) {
+    await this.blogLikeService.addLike({postId, userId});
+  }
+
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: BlogPostResponse.LikeRemoved
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: BlogPostResponse.GetLogin
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: BlogPostResponse.PostNotFound
+  })
+  @Delete('like/:postId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async deleteLike(@Param('postId') postId: string, @Body() {userId}: BlogLikeDto) {
+    await this.blogLikeService.removeLike({postId, userId});
   }
 
 }

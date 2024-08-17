@@ -1,10 +1,10 @@
 import { BasePostgresRepository } from '@project/data-access';
 import { BlogTagEntity } from './blog-tag.entity';
 import { Tag } from '@project/shared-core';
-import { PrismaClientService } from '@project/blog-models';
 import { BlogTagFactory } from './blog-tag.factory';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TagFilter, tagFilterToPrismaFilter } from './blog-tag.filter';
+import { PrismaClientService } from '@project/blog-models';
 
 @Injectable()
 export class BlogTagRepository extends BasePostgresRepository<BlogTagEntity, Tag> {
