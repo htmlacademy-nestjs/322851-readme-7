@@ -5,5 +5,4 @@ export interface LinkPost {
   url: string;
   description?: string;
   post?: Post;
-  postId?: string;
 }

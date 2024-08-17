@@ -146,8 +146,7 @@ function getQuotePost() {
 function getPhotoPost() {
   return {
       id: PHOTO_ID,
-      path: 'image.jpg',
-      description: 'Stock photo'
+      path: 'image.jpg'
     }
 }
 

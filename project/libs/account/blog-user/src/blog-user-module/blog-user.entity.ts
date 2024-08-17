@@ -1,7 +1,6 @@
 import { Entity, StorableEntity, AuthUser } from '@project/shared-core';
 import { compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from './blog-user.consts';
-import { randomUUID } from 'crypto';
 
 const DEFAULT_USER_AVATAR = 'default-avatar.jpg'
 
@@ -22,8 +21,9 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
       this.name = user.name;
       this.avatar = user?.avatar ?? DEFAULT_USER_AVATAR;
       this.passwordHash = user.passwordHash;
-      this.id = user.id ?? randomUUID();
+      this.id = user.id ?? '';
     }
+
   }
 
   public async setPassword(password: string): Promise<BlogUserEntity> {

@@ -1,12 +1,6 @@
-import { PostType } from '../types/post-type.enum';
-import { Comment } from './comment.interface';
-import { Like } from './like.interface';
-import { LinkPost } from './link-post.interface';
-import { PhotoPost } from './photo-post.interface';
-import { QuotePost } from './quote-post.interface';
+import { LinkPost, PhotoPost, QuotePost, TextPost, VideoPost } from '../../index';
 import { Tag } from './tag.interface';
-import { TextPost } from './text-post.interface';
-import { VideoPost } from './video-post.inteface';
+import { PostType } from '@prisma/client';
 
 export interface Post {
   id: string;
@@ -21,11 +15,18 @@ export interface Post {
   likesCount: number;
   commentsCount: number;
   tags: Tag[];
-  comments: Comment[];
-  likes: Like[];
   video?: VideoPost;
   photo?: PhotoPost;
+  link?: LinkPost;
   quote?: QuotePost;
   text?: TextPost;
-  link?: LinkPost;
+  videoId?: string;
+  photoId?: string;
+  linkId?: string;
+  quoteId?: string;
+  textId?: string;
+  _count?: {
+    comments: number;
+    likes: number;
+  }
 }
