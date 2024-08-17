@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { FileVaultConfig } from '.';
 import fileVaultConfig from './file-vault.config';
 
 const ENV_FILE_PATH = 'apps/file-vault/file.env';
@@ -12,7 +11,6 @@ const ENV_FILE_PATH = 'apps/file-vault/file.env';
       cache: true,
       envFilePath: ENV_FILE_PATH,
       load: [fileVaultConfig]
-
     })
   ]
 })

@@ -1,0 +1,17 @@
+# Upload file
+
+POST http://localhost:5000/api/files/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="avatar-max.jpg"
+Content-Type: image/jpeg
+
+< H:\djangoboy\Projects\HA\640.jpg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Get file by Id
+GET http://localhost:5000/api/files/66c1370c1800b12aa9731498 HTTP/1.1
