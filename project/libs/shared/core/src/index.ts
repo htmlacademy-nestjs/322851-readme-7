@@ -20,3 +20,5 @@ export { PostType } from './lib/types/post-type.enum';
 export { CommonPost } from './lib/types/common-post.type';
 export { File } from './lib/interfaces/file.interface';
 export { StoredFile } from './lib/interfaces/stored-file.interface';
+export { Subscriber } from './lib/interfaces/subscriber.interface';
+export { RabbitRouting } from './lib/types/rabbit-routing.enum';

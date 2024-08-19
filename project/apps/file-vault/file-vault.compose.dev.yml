@@ -15,6 +15,12 @@ services:
     volumes:
       - readme.mongo.file-vault:/data/db
 
+    healthcheck:
+        test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/readme_file_vault --quiet
+        interval: 10s
+        timeout: 10s
+        retries: 5
+
   readme.file-vault.mongo.ui:
     image: mongo-express:1.0.2-20
     restart: always

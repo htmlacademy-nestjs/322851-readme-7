@@ -6,9 +6,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { getJwtOptions } from '@project/account-config';
 import { JwtAccessStrategy } from '../strategies/jwt-access.strategy';
+import { AccountNotifyModule } from '@project/account-notify';
 
 @Module({
   imports: [
+    AccountNotifyModule,
     BlogUserModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
