@@ -24,6 +24,9 @@ export function getMongoDbString({username, password, host, dbName, port, authDb
   return `mongodb://${username}:${password}@${host}:${port}/${dbName}?authSource=${authDb}`;
 }
 
+export function getRabbitMqConnectionString({user, password, host, port}) {
+  return `amqp://${user}:${password}@${host}:${port}`;
+}
 
 export function getArrayOfUniques<T>(arr: T[]): T[] {
   const set = new Set(arr);
