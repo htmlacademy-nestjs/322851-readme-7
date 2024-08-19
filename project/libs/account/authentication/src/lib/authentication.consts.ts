@@ -10,6 +10,8 @@ export const AuthenticationMessages = {
   UserNotFound: 'User not found',
   UserExist: 'User with the email already exists',
   UserCreated: 'The new user has been successfully created.',
+  RefreshTokens: 'Get a new access/refresh tokens',
+  WrongToken: 'Your token is not valid or expired'
 } as const;
 
 

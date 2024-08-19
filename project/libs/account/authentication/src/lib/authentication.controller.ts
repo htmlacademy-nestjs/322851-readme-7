@@ -1,15 +1,17 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, UseGuards } from "@nestjs/common";
-import { AuthenticationService } from "./authentication.service";
-import { CreateUserDto } from "../dto/create-user.dto";
-import { LoginUserDto } from "../dto/login-user.dto";
-import { ApiResponse, ApiTags } from "@nestjs/swagger";
-import { AuthenticationMessages } from "./authentication.consts";
-import { LoggedUserRdo } from "../rdo/logged-user.rdo";
-import { UserRdo } from "../rdo/user.rdo";
+import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthenticationService } from './authentication.service';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthenticationMessages } from './authentication.consts';
+import { LoggedUserRdo } from '../rdo/logged-user.rdo';
+import { UserRdo } from '../rdo/user.rdo';
 import { MongoIdValidationPipe } from '@project/pipes';
-import { fillDto } from "@project/shared-helpers";
-import { JwtAuthGuard } from "../guards/jwt-auth.guard";
-import { AccountNotifyService } from "@project/account-notify";
+import { fillDto } from '@project/shared-helpers';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { AccountNotifyService } from '@project/account-notify';
+import { RequestWithUser } from './request-with-user.interface';
+import { LoacalAuthGuard } from '../guards/local-auth.quard';
+import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 @ApiTags('authentication')
 @Controller('auth')
 export class AuthenticationController {
@@ -43,15 +45,18 @@ export class AuthenticationController {
     status: HttpStatus.UNAUTHORIZED,
     description: AuthenticationMessages.LoggedError
   })
+  @UseGuards(LoacalAuthGuard)
   @Post('login')
-  public async login(@Body() dto: LoginUserDto) {
-    const user = await this.authenticationService.verify(dto);
+  public async login(@Req() { user }: RequestWithUser) {
+    if (! user) {
+      throw new BadRequestException('User not found');
+    }
     const userToken = await this.authenticationService.createUserToken(user);
 
     return fillDto(LoggedUserRdo, {...user.toPOJO(), ...userToken});
   }
 
-  @UseGuards(JwtAuthGuard)
+
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
@@ -61,9 +66,24 @@ export class AuthenticationController {
     status: HttpStatus.NOT_FOUND,
     description: AuthenticationMessages.UserNotFound
   })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async showUser(@Param('id', MongoIdValidationPipe) id: string) {
     const user = await this.authenticationService.getUser(id);
     return fillDto(UserRdo, { ...user.toPOJO(), subscribersCount: 0, postsCount: 0})
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: AuthenticationMessages.RefreshTokens
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: AuthenticationMessages.WrongToken
+  })
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh')
+  public async refreshToken(@Req() {user}: RequestWithUser) {
+    return this.authenticationService.createUserToken(user);
   }
 }

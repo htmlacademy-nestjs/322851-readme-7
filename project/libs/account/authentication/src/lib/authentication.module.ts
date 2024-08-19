@@ -7,6 +7,8 @@ import { ConfigService } from '@nestjs/config';
 import { getJwtOptions } from '@project/account-config';
 import { JwtAccessStrategy } from '../strategies/jwt-access.strategy';
 import { AccountNotifyModule } from '@project/account-notify';
+import { LocalStartegy } from '../strategies/local.strategy';
+import { JwtRefreshStrategy } from '../strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { AccountNotifyModule } from '@project/account-notify';
   providers: [
     AuthenticationService,
     JwtAccessStrategy,
+    LocalStartegy,
+    JwtRefreshStrategy
   ],
 })
 export class AuthenticationModule {

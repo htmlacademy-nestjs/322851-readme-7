@@ -22,3 +22,4 @@ export { File } from './lib/interfaces/file.interface';
 export { StoredFile } from './lib/interfaces/stored-file.interface';
 export { Subscriber } from './lib/interfaces/subscriber.interface';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
+export { JwtToken } from './lib/interfaces/jwt-token.interace';

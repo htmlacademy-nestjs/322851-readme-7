@@ -1,5 +1,8 @@
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
 
+export type DateTimeUnit = 's' | 'h' | 'd' | 'm' | 'y';
+export type TimeAndUnit = { value: number; unit: DateTimeUnit };
+
 export function fillDto<T, V>(
   DtoClass: new () => T,
   plainObject: V,
@@ -31,4 +34,23 @@ export function getRabbitMqConnectionString({user, password, host, port}) {
 export function getArrayOfUniques<T>(arr: T[]): T[] {
   const set = new Set(arr);
   return Array.from(set);
+}
+
+export function parseTime(time: string) {
+  const regex = /^(\d+)([smhdmy])/;
+  const match = regex.exec(time);
+
+  if (!match) {
+    throw new Error(`[parseTime] bad time string ${time}`);
+  }
+
+  const [,rawValue, rawUnit] = match;
+  const value = parseInt(rawValue, 10);
+  const unit = rawUnit as DateTimeUnit;
+
+  if (isNaN(value)) {
+    throw new Error('[parseTime] Can\'t parse value count. Value isNaN.')
+  }
+
+  return {unit, value}
 }
