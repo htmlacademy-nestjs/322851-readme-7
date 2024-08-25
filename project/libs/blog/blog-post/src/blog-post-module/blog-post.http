@@ -1,42 +1,41 @@
 #create newPost
-POST http://localhost:3000/api/posts
+POST http://localhost:3334/api/posts
 Content-Type: application/json
 
+
 {
-  "type": "PHOTO",
+  "type": "TEXT",
   "tags": [
-    "#prisma",
-    "#prisma",
-    "#prisma",
     "#prisma",
     "#prisma",
     "#beach"
   ],
   "isRepost": false,
-  "userId": "669aef3b7eadb26966f3c2cb",
-  "photo": { "path": "example.jpg" }
+  "text": { "title": "Some crazy test title ",
+            "preview": "Testtetstetstt desciption Testtetstetstt desciption Testtetstetstt desciption",
+            "content": "Continually syndicate impactful products for real-time bandwidth. Uniquely monetize virtual best practices whereas 2.0 communities. Collaboratively pontificate standards compliant testing procedures before." }
 }
 
 ###
 
 #Get all posts
 
-GET http://localhost:3000/api/posts?limit=2&page=2
+GET http://localhost:3334/api/posts?limit=2&page=2
 
 ###
 
 #Get one post
-GET http://localhost:3000/api/posts/7f1943ac-49ba-4a17-98e4-a0fbd01ef33b
+GET http://localhost:3334/api/posts/7f1943ac-49ba-4a17-98e4-a0fbd01ef33b
 
 ###
 
 #Delete post
-DELETE http://localhost:3000/api/posts/69467166-6715-4ddc-b594-12048b6ef7e8
+DELETE http://localhost:3334/api/posts/69467166-6715-4ddc-b594-12048b6ef7e8
 
 ###
 
 #update Post
-PATCH http://localhost:3000/api/posts/7f1943ac-49ba-4a17-98e4-a0fbd01ef33b
+PATCH http://localhost:3334/api/posts/7f1943ac-49ba-4a17-98e4-a0fbd01ef33b
 Content-Type: application/json
 
 {
@@ -46,7 +45,7 @@ Content-Type: application/json
 ###
 
 #add Like
-POST  http://localhost:3000/api/posts/like/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
+POST  http://localhost:3334/api/posts/addLike/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
 Content-Type: application/json
 
 {
@@ -56,7 +55,7 @@ Content-Type: application/json
 ###
 
 #remove Like
-DELETE  http://localhost:3000/api/posts/like/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
+POST  http://localhost:3334/api/posts/removeLike/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
 Content-Type: application/json
 
 {

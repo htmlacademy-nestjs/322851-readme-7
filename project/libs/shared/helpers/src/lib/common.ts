@@ -28,6 +28,7 @@ export function getMongoDbString({username, password, host, dbName, port, authDb
 }
 
 export function getRabbitMqConnectionString({user, password, host, port}) {
+  console.log(`amqp://${user}:${password}@${host}:${port}`);
   return `amqp://${user}:${password}@${host}:${port}`;
 }
 

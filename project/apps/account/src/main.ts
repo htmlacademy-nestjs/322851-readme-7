@@ -9,6 +9,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { ValidationError } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +25,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
+    exceptionFactory: (errors: ValidationError[]) => errors.toString()
   }));
 
   const globalPrefix = 'api';

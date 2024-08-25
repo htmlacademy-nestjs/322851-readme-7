@@ -5,7 +5,6 @@ import { BlogCommentQuery } from './blog-comment-query';
 import { PaginationResult } from '@project/shared-core';
 import { BlogCommentFactory } from './blog-comment.factory';
 import { BlogCommentRepository } from './blog-comment.repository';
-import { BlogPostRepository } from 'libs/blog/blog-post/src/blog-post-module/repositories/blog-post.repository';
 import { BlogPostService } from '@project/blog-post';
 
 @Injectable()

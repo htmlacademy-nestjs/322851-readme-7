@@ -11,7 +11,9 @@ export const AuthenticationMessages = {
   UserExist: 'User with the email already exists',
   UserCreated: 'The new user has been successfully created.',
   RefreshTokens: 'Get a new access/refresh tokens',
-  WrongToken: 'Your token is not valid or expired'
+  WrongToken: 'Your token is not valid or expired',
+  PasswordUpdated: 'Your password was successfully updated',
+  Unauthorized: 'You should be authorized to change password'
 } as const;
 
 

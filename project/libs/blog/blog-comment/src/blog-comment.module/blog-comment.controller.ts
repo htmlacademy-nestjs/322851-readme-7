@@ -45,7 +45,6 @@ export class BlogCommentController {
   })
   @Post('/:postId')
   public async create(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
-    console.log(dto, postId)
     const newComment = await this.blogCommentService.createComment(dto, postId);
     return fillDto(BlogCommentRdo, newComment);
   }

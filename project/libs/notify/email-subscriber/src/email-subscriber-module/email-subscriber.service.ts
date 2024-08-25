@@ -18,7 +18,6 @@ export class EmailSubscriberService {
 
     const newSubscriber = new EmailSubscriberEntity(dto);
     await this.subscriberRepository.save(newSubscriber);
-
     return newSubscriber;
   }
 }

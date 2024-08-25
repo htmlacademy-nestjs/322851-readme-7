@@ -1,0 +1,69 @@
+#create newPost
+POST http://localhost:4000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDQ3Mjk1NywiZXhwIjoxNzI0NDczMjU3fQ.48fW3_IJas4sUIsn3JQ4IIIU11A963b-v1DhYniVWY0
+
+{
+  "type": "TEXT",
+  "tags": [
+    "#prisma",
+    "#prisma",
+    "#beach"
+  ],
+  "isRepost": false,
+  "text": { "title": "Some crazy test title ",
+            "preview": "Testtetstetstt desciption Testtetstetstt desciption Testtetstetstt desciption",
+            "content": "Continually syndicate impactful products for real-time bandwidth. Uniquely monetize virtual best practices whereas 2.0 communities. Collaboratively pontificate standards compliant testing procedures before." }
+}
+
+###
+
+#Get all posts
+
+GET http://localhost:4000/api/posts?limit=2&page=2
+
+###
+
+#Get one post
+GET http://localhost:4000/api/posts/75714710-5589-41af-a43c-a181b3b717f2
+
+###
+
+#Delete post
+DELETE http://localhost:4000/api/posts/07aede82-b4e2-4163-9699-11c1eda7adbd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDQ3MzcwNCwiZXhwIjoxNzI0NDc0MDA0fQ.1gf-0YYngR-UnBlKqobjVqeaak8RvJAhtHOBKWx_9X8
+
+###
+
+#update Post
+PATCH http://localhost:4000/api/posts/75714710-5589-41af-a43c-a181b3b717f2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDQ3Mjk1NywiZXhwIjoxNzI0NDczMjU3fQ.48fW3_IJas4sUIsn3JQ4IIIU11A963b-v1DhYniVWY0
+
+{
+ "tags": ["#test", "#node"]
+}
+
+###
+
+#add Like
+POST  http://localhost:4000/api/posts/addLike/75714710-5589-41af-a43c-a181b3b717f2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDQ3MzcwNCwiZXhwIjoxNzI0NDc0MDA0fQ.1gf-0YYngR-UnBlKqobjVqeaak8RvJAhtHOBKWx_9X8
+
+{
+  "userId": "669aef3b7eadb26966f3c2cb"
+}
+
+###
+
+#remove Like
+POST  http://localhost:4000/api/posts/removeLike/75714710-5589-41af-a43c-a181b3b717f2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDQ3MzcwNCwiZXhwIjoxNzI0NDc0MDA0fQ.1gf-0YYngR-UnBlKqobjVqeaak8RvJAhtHOBKWx_9X8
+
+{
+  "userId": "669aef3b7eadb26966f3c2cb"
+}
+
+###

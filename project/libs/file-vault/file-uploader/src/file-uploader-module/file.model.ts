@@ -33,6 +33,7 @@ export class FileModel extends Document implements File {
     required: true
   })
   subDirectory: string;
+
   id?: string;
   createdAt: Date;
   updatedAt: Date;

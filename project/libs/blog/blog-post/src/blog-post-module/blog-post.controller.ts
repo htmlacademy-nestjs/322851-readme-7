@@ -114,7 +114,7 @@ export class BlogPostController {
     status: HttpStatus.NOT_FOUND,
     description: BlogPostResponse.PostNotFound
   })
-  @Post('like/:postId')
+  @Post('addLike/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async saveLike(@Param('postId') postId: string, @Body() {userId}: BlogLikeDto) {
     await this.blogLikeService.addLike({postId, userId});
@@ -132,7 +132,7 @@ export class BlogPostController {
     status: HttpStatus.NOT_FOUND,
     description: BlogPostResponse.PostNotFound
   })
-  @Delete('like/:postId')
+  @Post('removeLike/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async deleteLike(@Param('postId') postId: string, @Body() {userId}: BlogLikeDto) {
     await this.blogLikeService.removeLike({postId, userId});

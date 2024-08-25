@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -12,6 +12,10 @@ import { AccountNotifyService } from '@project/account-notify';
 import { RequestWithUser } from './request-with-user.interface';
 import { LoacalAuthGuard } from '../guards/local-auth.quard';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
+import { RequestWithTokenPayload } from '@project/shared-core';
+import { UpdateUserDto } from '../dto/update-user.dto';
+
+
 @ApiTags('authentication')
 @Controller('auth')
 export class AuthenticationController {
@@ -33,7 +37,7 @@ export class AuthenticationController {
     const user = await this.authenticationService.register(dto);
     const {email, name} = user;
     await this.notifyService.registerSubscriber({email, name});
-    return user.toPOJO();
+    return fillDto(UserRdo, user.toPOJO());
   }
 
   @ApiResponse({
@@ -54,6 +58,27 @@ export class AuthenticationController {
     const userToken = await this.authenticationService.createUserToken(user);
 
     return fillDto(LoggedUserRdo, {...user.toPOJO(), ...userToken});
+  }
+
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: AuthenticationMessages.PasswordUpdated
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: AuthenticationMessages.UserNotFound
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: AuthenticationMessages.Unauthorized
+  })
+  @UseGuards(JwtAuthGuard)
+  @Patch('update')
+  public async changePassword(@Body() dto: UpdateUserDto, @Req() { user: payload }: RequestWithTokenPayload) {
+    console.log('authentication controller')
+    const user = await this.authenticationService.updatePassword(dto, payload?.sub);
+
+    return fillDto(UserRdo, user.toPOJO());
   }
 
 
@@ -85,5 +110,11 @@ export class AuthenticationController {
   @Post('refresh')
   public async refreshToken(@Req() {user}: RequestWithUser) {
     return this.authenticationService.createUserToken(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
+    return payload;
   }
 }

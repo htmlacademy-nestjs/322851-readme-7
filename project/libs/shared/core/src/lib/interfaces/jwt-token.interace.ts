@@ -3,4 +3,5 @@ export interface JwtToken {
   createdAt: Date;
   tokenId: string;
   userId: string;
+  expiresIn: Date;
 }
