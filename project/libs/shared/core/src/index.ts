@@ -25,3 +25,4 @@ export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { JwtToken } from './lib/interfaces/jwt-token.interace';
 export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';
 export { RequestWithTokenPayload } from './lib/interfaces/request-with-token-payload';
+export { SortType } from './lib/interfaces/sort-type.interface';

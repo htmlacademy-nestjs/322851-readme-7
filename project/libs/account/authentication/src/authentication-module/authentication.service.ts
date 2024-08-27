@@ -29,7 +29,10 @@ export class AuthenticationService {
       name,
       email,
       avatar: '',
-      passwordHash: ''
+      passwordHash: '',
+      subscriptions: [],
+      subscribersCount: 0,
+      postsCount: 0
     }
 
     const existUser = await this.blogUserRepsitory.findByEmail(email);
@@ -81,6 +84,46 @@ export class AuthenticationService {
     const userEntity = await existUser.setPassword(dto.password);
     this.blogUserRepsitory.updatePassword(id, userEntity.passwordHash);
     return userEntity;
+  }
+
+  public async incrementPostsCount( userId: string) {
+    const existUser = await this.blogUserRepsitory.findById(userId);
+    if (existUser) {
+      existUser.postsCount += 1;
+      await this.blogUserRepsitory.update(existUser);
+    }
+
+  }
+
+  public async reducePostsCount( userId: string) {
+    const existUser = await this.blogUserRepsitory.findById(userId);
+    if (existUser) {
+      existUser.postsCount -= 1;
+      await this.blogUserRepsitory.update(existUser);
+    }
+  }
+
+  public async updateSubscription( userId: string, userToSubscribe: BlogUserEntity) {
+    const existUser = await this.blogUserRepsitory.findById(userId);
+
+    if (! existUser) {
+      throw new NotFoundException(`User whith id ${userId} not found`)
+    }
+
+    if (existUser.subscriptions.includes(userToSubscribe.id)) {
+      existUser.subscriptions = existUser.subscriptions.filter((id) => id !== userToSubscribe.id);
+      userToSubscribe.subscribersCount -= 1;
+    } else {
+      existUser.subscriptions.push(userToSubscribe.id);
+      userToSubscribe.subscribersCount += 1;
+    }
+
+    await Promise.all([
+      this.blogUserRepsitory.update(existUser),
+      this.blogUserRepsitory.update(userToSubscribe),
+    ])
+
+    return existUser;
   }
 
   public async createUserToken(user: User): Promise<Token> {

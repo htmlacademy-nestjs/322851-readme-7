@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { BlogPostQuery } from './blog-post.query';
 import { BlogPostEntity } from './blog-post.entity';
 import { PaginationResult } from '@project/shared-core';
@@ -15,8 +15,8 @@ export class BlogPostService {
     private readonly blogTagService: BlogTagService
   ) {}
 
-  public async getAll(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
-    return this.blogPostRepository.find(query);
+  public async getAll(query?: BlogPostQuery, userIds?: string[]): Promise<PaginationResult<BlogPostEntity>> {
+    return this.blogPostRepository.find(query, userIds);
   }
 
   public async getPost(id: string): Promise<BlogPostEntity> {
@@ -33,8 +33,33 @@ export class BlogPostService {
     return newPost;
   }
 
+  public async createRepost(postId: string, userId: string): Promise<BlogPostEntity> {
+    const existsPost = await this.blogPostRepository.findById(postId);
+
+    if (! existsPost) {
+      throw new NotFoundException(`Post with id ${postId} not found`);
+    }
+
+    const existRepost = await this.blogPostRepository.findRepost(postId, userId);
+
+    if (existRepost) {
+      throw new ConflictException(`You had already made this repost`);
+    }
+
+    const newPost = BlogPostFactory.createRepost(existsPost.toPOJO(), userId);
+
+    console.log('newPost: ', newPost)
+
+    await this.blogPostRepository.save(newPost);
+
+    return newPost;
+  }
+
   public async updatePost(id: string, dto: UpdatePostDto): Promise<BlogPostEntity> {
     const existsPost = await this.blogPostRepository.findById(id);
+    if (dto.userId !== existsPost.userId) {
+      throw new ConflictException(`You are not allowed to update this post`);
+    }
     let isSameTags = true;
     let hasChanges = false;
 
@@ -63,12 +88,15 @@ export class BlogPostService {
       return existsPost;
   }
 
-  public async deletePost(id: string): Promise<void> {
+  public async deletePost(postId: string, userId: string): Promise<void> {
+    const existsPost = await this.blogPostRepository.findById(postId);
+    if (userId !== existsPost.userId) {
+      throw new ConflictException(`You are not allowed to delete this post`);
+    }
     try {
-      await this.blogPostRepository.deleteById(id);
+        await this.blogPostRepository.deleteById(postId);
     } catch(err) {
-      console.log(err);
-      throw new NotFoundException(`Post with id ${id} not found`);
+      throw new NotFoundException(`Post with id ${postId} not found`);
     }
   }
 }

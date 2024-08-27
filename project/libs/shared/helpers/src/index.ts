@@ -3,7 +3,8 @@ export {
   getMongoDbString,
   getArrayOfUniques,
   getRabbitMqConnectionString,
-  parseTime
+  parseTime,
+  createUrlForFile
  } from "./lib/common";
 
 

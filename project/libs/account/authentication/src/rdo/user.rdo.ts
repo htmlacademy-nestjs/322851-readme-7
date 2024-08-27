@@ -50,4 +50,11 @@ export class UserRdo {
   })
   @Expose()
   public createdAt: string;
+
+  @ApiProperty({
+    description: 'Subscribes of the user',
+    example: ['2121656AHGDg']
+  })
+  @Expose()
+  public subscriptions: string[];
 }

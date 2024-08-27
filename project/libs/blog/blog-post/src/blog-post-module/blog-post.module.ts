@@ -5,9 +5,10 @@ import { BlogPostRepository } from "./repositories/blog-post.repository";
 import { BlogPostFactory } from "./blog-post.factory";
 import { BlogPostController } from "./blog-post.controller";
 import { BlogLikeModule } from '@project/blog-like';
+import { BlogNotifyModule } from '@project/blog-notify';
 
 @Module({
-  imports: [BlogTagModule, BlogLikeModule],
+  imports: [BlogTagModule, BlogLikeModule, BlogNotifyModule],
   exports: [BlogPostService],
   providers: [BlogPostService, BlogPostRepository, BlogPostFactory],
   controllers: [BlogPostController]

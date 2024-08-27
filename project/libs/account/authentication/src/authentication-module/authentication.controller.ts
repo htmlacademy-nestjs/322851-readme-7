@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -41,6 +41,31 @@ export class AuthenticationController {
   }
 
   @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: AuthenticationMessages.UserCreated
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: AuthenticationMessages.UserNotFound
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post('subscribe/:id')
+  public async subscribe(@Param('id', MongoIdValidationPipe) id: string, @Req() { user }: RequestWithTokenPayload) {
+    if (! user) {
+      throw new UnauthorizedException(`Please, login to subscribe`);
+    }
+
+    const userToSubscribe = await this.authenticationService.getUser(id);
+
+    if (!userToSubscribe) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    const subscriber = await this.authenticationService.updateSubscription(user.sub, userToSubscribe);
+    await this.notifyService.updateSubscription({userEmail: subscriber.email, subscriptionId: userToSubscribe.id});
+  }
+
+  @ApiResponse({
     type: LoggedUserRdo,
     status: HttpStatus.OK,
     description: AuthenticationMessages.LoggedSuccess
@@ -75,12 +100,10 @@ export class AuthenticationController {
   @UseGuards(JwtAuthGuard)
   @Patch('update')
   public async changePassword(@Body() dto: UpdateUserDto, @Req() { user: payload }: RequestWithTokenPayload) {
-    console.log('authentication controller')
     const user = await this.authenticationService.updatePassword(dto, payload?.sub);
 
     return fillDto(UserRdo, user.toPOJO());
   }
-
 
   @ApiResponse({
     type: UserRdo,
@@ -117,4 +140,18 @@ export class AuthenticationController {
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
     return payload;
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/incrementPostsCount')
+  public async incrementPostsCount(@Body() userId: string) {
+    this.authenticationService.incrementPostsCount(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/reducePostsCount')
+  public async reducePostsCount(@Body() userId: string) {
+    this.authenticationService.reducePostsCount(userId);
+  }
+
+
 }

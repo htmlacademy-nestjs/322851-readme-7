@@ -1,6 +1,6 @@
-import { IsArray, IsIn, IsNumber, IsOptional, IsUUID } from "class-validator";
-import { DEFAULT_PAGE_COUNT, DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION } from "./blog-post.consts";
-import { SortDirection } from "@project/shared-core";
+import { IsArray, IsIn, IsNumber, IsOptional, IsString } from "class-validator";
+import { DEFAULT_PAGE_COUNT, DEFAULT_POST_COUNT_LIMIT, DEFAULT_SORT_DIRECTION, DEFAULT_SORT_TYPE } from "./blog-post.consts";
+import { SortDirection, SortType } from "@project/shared-core";
 import { Transform } from "class-transformer";
 
 export class BlogPostQuery {
@@ -9,7 +9,6 @@ export class BlogPostQuery {
   @IsOptional()
   public limit: number = DEFAULT_POST_COUNT_LIMIT;
 
-  @IsUUID('all', {each: true})
   @IsArray()
   @IsOptional()
   public tags?: string[];
@@ -18,7 +17,17 @@ export class BlogPostQuery {
   @IsOptional()
   public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION
 
+  @IsIn(Object.values(SortType))
+  @IsOptional()
+  public sortBy: SortType = DEFAULT_SORT_TYPE
+
   @Transform(({ value }) => parseInt(value, 10) || DEFAULT_PAGE_COUNT)
   @IsOptional()
   public page: number = DEFAULT_PAGE_COUNT
+
+  @IsString()
+  @IsOptional()
+  public search?: string
+
+
 }

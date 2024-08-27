@@ -9,6 +9,9 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
   public name: string;
   public avatar?: string;
   public passwordHash: string;
+  public subscribersCount: number;
+  public postsCount: number;
+  public subscriptions: string[];
 
   constructor(user?: AuthUser) {
     super();
@@ -21,6 +24,9 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
       this.name = user.name;
       this.avatar = user?.avatar ?? DEFAULT_USER_AVATAR;
       this.passwordHash = user.passwordHash;
+      this.subscriptions = user.subscriptions;
+      this.subscribersCount = user.subscribersCount ?? 0;
+      this.postsCount = user.postsCount ?? 0;
       this.id = user.id ?? '';
     }
 
@@ -42,7 +48,10 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
       email: this.email,
       avatar: this.avatar,
       name: this.name,
-      passwordHash: this.passwordHash
+      passwordHash: this.passwordHash,
+      subscriptions: this.subscriptions,
+      subscribersCount: this.subscribersCount,
+      postsCount: this.postsCount
     }
   }
 }

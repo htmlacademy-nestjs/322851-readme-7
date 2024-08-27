@@ -29,4 +29,23 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
     return newPost;
   }
 
+  public static createRepost(existsPost: Post, userId: string): BlogPostEntity {
+    const newPost = new BlogPostEntity();
+    newPost.commentsCount = 0;
+    newPost.isPublished = true;
+    newPost.isRepost = true;
+    newPost.originalAuthor = existsPost.userId;
+    newPost.originalId = existsPost.id;
+    newPost.likesCount = 0;
+    newPost.tags = existsPost.tags;
+    newPost.type = existsPost.type;
+    newPost.userId = userId;
+    newPost.video = (existsPost.video) ? { url: existsPost.video.url } : undefined;
+    newPost.photo = (existsPost.photo) ?  { path: existsPost.photo.path } : undefined;
+    newPost.link = (existsPost.link) ?  { url: existsPost.link.url, description: existsPost.link.description } : undefined;
+    newPost.quote = (existsPost.quote) ?  { author: existsPost.quote.author, content: existsPost.quote.content } : undefined;
+    newPost.text = (existsPost.text) ?  { title: existsPost.text.title, content: existsPost.text.content, preview: existsPost.text.preview } : undefined;
+
+    return newPost;
+  }
 }

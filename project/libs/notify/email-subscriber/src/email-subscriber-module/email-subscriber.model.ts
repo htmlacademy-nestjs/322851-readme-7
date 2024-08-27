@@ -16,6 +16,15 @@ export class EmailSubscriberModel extends Document implements Subscriber {
   @Prop({required: true})
   name: string;
 
+  @Prop({required: false, default: []})
+  subscriptions?: string[]
+
+  @Prop({required: false, default: new Date()})
+  lastEmailDate?: Date
+
+  @Prop({ required: true })
+  subscriberId: string
+
   id?: string;
 }
 

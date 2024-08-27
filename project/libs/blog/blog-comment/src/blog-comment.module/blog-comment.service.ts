@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { BlogCommentEntity } from './blog-comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { BlogCommentQuery } from './blog-comment-query';
-import { PaginationResult } from '@project/shared-core';
+import { PaginationResult, TokenPayload } from '@project/shared-core';
 import { BlogCommentFactory } from './blog-comment.factory';
 import { BlogCommentRepository } from './blog-comment.repository';
 import { BlogPostService } from '@project/blog-post';
@@ -38,7 +38,12 @@ export class BlogCommentService {
     return newComment;
   }
 
-  public async deleteComment(id: string): Promise<void> {
+  public async deleteComment(id: string, user: TokenPayload): Promise<void> {
+    const existComment = await this.commentRepository.findById(id);
+    if (user.sub !== existComment.id) {
+      throw new ConflictException('You are not allowed to deletec this comment')
+    }
+
     try {
       await this.commentRepository.deleteById(id);
     } catch {

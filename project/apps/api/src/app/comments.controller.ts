@@ -3,7 +3,7 @@ import { Body, Controller, Delete, Get, Param, Post, Req, UseFilters, UseGuards,
 import { ApplicationServiceUrl } from "./app.config";
 import { CreateCommentDto } from "libs/blog/blog-comment/src/blog-comment.module/dto/create-comment.dto";
 import { CheckAuthGuard } from "./guards/check-auth.guard";
-import { InjectUesrIdInterceptor } from "@project/interceptors";
+import { InjectUserIdInterceptor } from "@project/interceptors";
 import { AxiosExceptionFilter } from "./filters/axios.exception-filter";
 import { Request } from 'express';
 import * as url from 'node:url';
@@ -25,7 +25,7 @@ export class CommentController {
 
   @Post('/:postId')
   @UseGuards(CheckAuthGuard)
-  @UseInterceptors(InjectUesrIdInterceptor)
+  @UseInterceptors(InjectUserIdInterceptor)
   public async create(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceUrl.Comment}/${postId}`, dto);
 
@@ -35,7 +35,7 @@ export class CommentController {
 
   @Delete('/:commentId')
   @UseGuards(CheckAuthGuard)
-  @UseInterceptors(InjectUesrIdInterceptor)
+  @UseInterceptors(InjectUserIdInterceptor)
   public async delete(@Param('commentId') commentId: string) {
     const { data } = await this.httpService.axiosRef.delete(`${ApplicationServiceUrl.Comment}/${commentId}`);
 

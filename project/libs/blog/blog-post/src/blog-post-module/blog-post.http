@@ -4,38 +4,37 @@ Content-Type: application/json
 
 
 {
-  "type": "TEXT",
+  "type": "LINK",
   "tags": [
-    "#prisma",
-    "#prisma",
-    "#beach"
+    "#nest"
   ],
+  "userId": "66ae3361c4cdd12187632320",
   "isRepost": false,
-  "text": { "title": "Some crazy test title ",
-            "preview": "Testtetstetstt desciption Testtetstetstt desciption Testtetstetstt desciption",
-            "content": "Continually syndicate impactful products for real-time bandwidth. Uniquely monetize virtual best practices whereas 2.0 communities. Collaboratively pontificate standards compliant testing procedures before." }
+  "link": {
+    "url": "https://docs.nestjs.com/techniques/http-module#full-example"
+  }
 }
 
 ###
 
 #Get all posts
 
-GET http://localhost:3334/api/posts?limit=2&page=2
+GET http://localhost:3334/api/posts?sortBy=likesCount&sortDirection=desc&tags[]=js
 
 ###
 
 #Get one post
-GET http://localhost:3334/api/posts/7f1943ac-49ba-4a17-98e4-a0fbd01ef33b
+GET http://localhost:3334/api/posts/2da3b1ae-1c16-4d08-bfdb-4dd8aa1792ec
 
 ###
 
 #Delete post
-DELETE http://localhost:3334/api/posts/69467166-6715-4ddc-b594-12048b6ef7e8
+DELETE http://localhost:3334/api/posts/f47f0016-ccfd-4fad-8eb4-e369d9667aa1/66ad395f479b49ce03ceacfd
 
 ###
 
 #update Post
-PATCH http://localhost:3334/api/posts/7f1943ac-49ba-4a17-98e4-a0fbd01ef33b
+PATCH http://localhost:3334/api/posts/7f1943ac-49ba-4a17-98e4-a0fbd01ef33b/
 Content-Type: application/json
 
 {
@@ -63,3 +62,25 @@ Content-Type: application/json
 }
 
 ###
+
+#make a repost
+POST  http://localhost:3334/api/posts/repost/c0930230-9cbb-4253-a64d-28125cee55a1
+Content-Type: application/json
+
+{
+  "userId": "66ad395f479b49ce03ceacfd"
+}
+
+###
+
+
+#send posts by email
+POST  http://localhost:3334/api/posts/sendPosts
+Content-Type: application/json
+
+{
+  "subscriberId": "66cc7e9f057df62a983fb065"
+}
+
+###
+

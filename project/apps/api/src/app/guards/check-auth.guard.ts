@@ -15,7 +15,6 @@ export class CheckAuthGuard implements CanActivate {
         Authorization: request.headers['authorization']
       }
     });
-
     request['user'] = data;
 
     return true;

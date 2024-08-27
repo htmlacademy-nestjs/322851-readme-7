@@ -20,7 +20,7 @@ export class BlogLikeService {
 
   }
 
-  public async removeLike(like) {
+  public async removeLike(like: Like) {
     try {
       await this.blogLikeRepository.deleteByIds(like);
     } catch {

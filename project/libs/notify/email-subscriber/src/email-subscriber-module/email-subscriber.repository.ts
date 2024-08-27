@@ -19,4 +19,9 @@ export class EmailSubscriberRepository extends BaseMongoRepository<EmailSubscrib
     const document = await this.model.findOne({email}).exec();
     return this.createEntityFromDocument(document);
   }
+
+  public async findBySubscriberId(subscriberId: string): Promise<EmailSubscriberEntity | null> {
+    const document = await this.model.findOne({subscriberId}).exec();
+    return this.createEntityFromDocument(document);
+  }
 }
