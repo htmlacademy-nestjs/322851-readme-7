@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query, Req } from '@nestjs/common';
 import { BlogCommentService } from './blog-comment.service';
 import { fillDto } from '@project/shared-helpers';
 import { BlogCommentRdo } from './rdo/blog-comment.rdo';
@@ -7,6 +7,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BlogCommentRespose } from './blog-comment.consts';
 import { BlogCommentQuery } from './blog-comment-query';
 import { BlogCommentWithPaginationRdo } from './rdo/blog-comment-wtih-pagination';
+import { RequestWithTokenPayload } from '@project/shared-core';
 
 @ApiTags('blog comment')
 @Controller('/comments')
@@ -45,7 +46,6 @@ export class BlogCommentController {
   })
   @Post('/:postId')
   public async create(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
-    console.log(dto, postId)
     const newComment = await this.blogCommentService.createComment(dto, postId);
     return fillDto(BlogCommentRdo, newComment);
   }
@@ -58,8 +58,12 @@ export class BlogCommentController {
     status: HttpStatus.NOT_FOUND,
     description: BlogCommentRespose.CommentNotFound
   })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: BlogCommentRespose.NotAllowed
+  })
   @Delete('/:commentId')
-  public async delete(@Param('commentId') commentId: string) {
-    await this.blogCommentService.deleteComment(commentId);
+  public async delete(@Param('commentId') commentId: string, @Req() {user}: RequestWithTokenPayload) {
+    await this.blogCommentService.deleteComment(commentId, user);
   };
 }

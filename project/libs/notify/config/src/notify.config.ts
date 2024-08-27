@@ -92,11 +92,11 @@ function getConfig(): NotifyConfig {
       exchange: process.env.RABBIT_EXCHANGE
     },
     mail: {
-      host: process.env.RABBIT_HOST,
-      port: parseInt(process.env.RABBIT_PORT, 10) ?? DEFAULT_SMTP_PORT,
-      user: process.env.RABBIT_USER,
-      password: process.env.RABBIT_PASSWORD,
-      from: process.env.RABBIT_QUEUE
+      host: process.env.MAIL_SMTP_HOST,
+      port: parseInt(process.env.MAIL_SMTP_PORT, 10) ?? DEFAULT_SMTP_PORT,
+      user: process.env.MAIL_USER,
+      password: process.env.MAIL_PASSWORD,
+      from: process.env.MAIL_FROM
     }
   }
 

@@ -1,8 +1,9 @@
-import { SortDirection } from '@project/shared-core';
+import { SortDirection, SortType } from '@project/shared-core';
 
 
 export const DEFAULT_POST_COUNT_LIMIT = 25;
 export const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
+export const DEFAULT_SORT_TYPE = SortType.DATE;
 export const DEFAULT_PAGE_COUNT = 1;
 
 export const BlogPostValidateMessage = {
@@ -31,5 +32,6 @@ export const BlogPostResponse = {
   PostDeleted: 'Post was successfully deleted',
   GetLogin: 'Login to like the post',
   LikeAdded: 'Successfully add new like',
-  LikeRemoved: 'Successfully remove new like'
+  LikeRemoved: 'Successfully remove new like',
+  NotAllowed: 'You are not allowed to change or delete this post'
 }

@@ -1,0 +1,88 @@
+#create newPost
+POST http://localhost:4000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM1MzVkOGFmOTU5NzRjZGIxNDVmNDYiLCJuYW1lIjoiUGVkcm8iLCJpYXQiOjE3MjQ3MDAwNjQsImV4cCI6MTcyNDcwMDM2NH0.EGCz4DNqzp6NeQ4F0BiP0Yr_BuDFB39jzvilWx-1N4M
+
+{
+  "type": "VIDEO",
+  "tags": [
+    "rabbit"
+  ],
+  "isRepost": false,
+  "video": { "url": "https://docs.nestjs.com/microservices/rabbitmq" }
+}
+
+###
+
+#Get all posts
+
+GET http://localhost:4000/api/posts?sortBy=likesCount&sortDirection=desc&tags[]=js&tags[]=nest
+
+###
+
+#Get one post
+GET http://localhost:4000/api/posts/75714710-5589-41af-a43c-a181b3b717f2
+
+###
+
+#Delete post
+DELETE http://localhost:4000/api/posts/76a371cb-de9a-40cc-8c80-dcd2047ad6e7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmFkMzk1ZjQ3OWI0OWNlMDNjZWFjZmQiLCJuYW1lIjoiVmFzeWEiLCJpYXQiOjE3MjQ2MTIwNDQsImV4cCI6MTcyNDYxMjM0NH0.AuJmSnKiy4jvmkCyqfTPWDJBHW4HC_dL8VYMSeJiGqs
+
+###
+
+#update Post
+PATCH http://localhost:4000/api/posts/75714710-5589-41af-a43c-a181b3b717f2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDU0OTg0OCwiZXhwIjoxNzI0NTUwMTQ4fQ.vs549aHnw0lB0Umo6A59G7DIlc9VjQYFnM4vxcjn_IQ
+
+{
+ "isPublished": true
+}
+
+###
+
+#add Like
+POST  http://localhost:4000/api/posts/addLike/75714710-5589-41af-a43c-a181b3b717f2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDQ3MzcwNCwiZXhwIjoxNzI0NDc0MDA0fQ.1gf-0YYngR-UnBlKqobjVqeaak8RvJAhtHOBKWx_9X8
+
+{
+  "userId": "669aef3b7eadb26966f3c2cb"
+}
+
+###
+
+#remove Like
+POST  http://localhost:4000/api/posts/removeLike/75714710-5589-41af-a43c-a181b3b717f2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDQ3MzcwNCwiZXhwIjoxNzI0NDc0MDA0fQ.1gf-0YYngR-UnBlKqobjVqeaak8RvJAhtHOBKWx_9X8
+
+{
+  "userId": "669aef3b7eadb26966f3c2cb"
+}
+
+###
+
+#make a repost
+POST  http://localhost:4000/api/posts/repost/63b2b115-e7e5-4c6f-b19c-159786848e0b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmFkMzk1ZjQ3OWI0OWNlMDNjZWFjZmQiLCJuYW1lIjoiVmFzeWEiLCJpYXQiOjE3MjQ2MTIyNzMsImV4cCI6MTcyNDYxMjU3M30.sRfxEhNPVDq7zYs0Ubl5xOnvxIbTFIuicSgAIJibCvk
+
+
+###
+
+#send email
+POST  http://localhost:4000/api/posts/sendEmail
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmNjN2U5ZjA1N2RmNjJhOTgzZmIwNjUiLCJuYW1lIjoiTWlja2V5IE1vdXNlIiwiaWF0IjoxNzI0NzExNzk2LCJleHAiOjE3MjQ3MTIwOTZ9.fht4Ww46NmQQVITGUEe_jofqWEZP2eGbhft6et85wH0
+
+###
+
+#get feed
+POST  http://localhost:4000/api/posts/feed
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmNjN2U5ZjA1N2RmNjJhOTgzZmIwNjUiLCJuYW1lIjoiTWlja2V5IE1vdXNlIiwiaWF0IjoxNzI0NzE2MzM2LCJleHAiOjE3MjQ3MTY2MzZ9.tZzNj6fl06WDVBQEyzpa5_6QOHycwe4q8JmmTcKJUDg
+
+
+###

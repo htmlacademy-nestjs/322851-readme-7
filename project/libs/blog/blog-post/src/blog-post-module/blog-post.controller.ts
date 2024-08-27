@@ -9,14 +9,17 @@ import { BlogPostResponse } from './blog-post.consts';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { BlogLikeService } from 'libs/blog/blog-like/src/blog-like-module/blog-like.service';
-import { BlogLikeDto } from '@project/blog-like';
+import { RepostDto } from './dto/repost-dto';
+import { BlogNotifyService } from '@project/blog-notify';
+import { UserIdDto } from './dto/user-id.dto';
 
 @ApiTags('blog post')
 @Controller('/posts')
 export class BlogPostController {
   constructor(
     private readonly blogPostService: BlogPostService,
-    private readonly blogLikeService: BlogLikeService
+    private readonly blogLikeService: BlogLikeService,
+    private readonly notifyService: BlogNotifyService
   ) {}
 
   @ApiResponse({
@@ -66,6 +69,18 @@ export class BlogPostController {
 
   @ApiResponse({
     type: BlogPostRdo,
+    status: HttpStatus.CREATED,
+    description: BlogPostResponse.PostCreated
+  })
+  @Post('/repost/:postId')
+  public async createRepost(@Param('postId') postId: string, @Body() {userId}: RepostDto) {
+    const newPost = await this.blogPostService.createRepost(postId, userId);
+
+    return fillDto(BlogPostRdo, newPost.toPOJO());
+  }
+
+  @ApiResponse({
+    type: BlogPostRdo,
     status: HttpStatus.ACCEPTED,
     description: BlogPostResponse.PostUpdated
   })
@@ -76,6 +91,10 @@ export class BlogPostController {
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: BlogPostResponse.PostNotFound
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: BlogPostResponse.NotAllowed
   })
   @Patch('/:id')
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
@@ -96,10 +115,14 @@ export class BlogPostController {
     status: HttpStatus.NOT_FOUND,
     description: BlogPostResponse.PostNotFound
   })
-  @Delete('/:id')
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: BlogPostResponse.NotAllowed
+  })
+  @Delete('/:postId/:userId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async delete(@Param('id') id: string) {
-    await this.blogPostService.deletePost(id)
+  public async delete(@Param('postId') postId: string, @Param('userId') userId: string, ) {
+    await this.blogPostService.deletePost(postId, userId);
   }
 
   @ApiResponse({
@@ -114,9 +137,9 @@ export class BlogPostController {
     status: HttpStatus.NOT_FOUND,
     description: BlogPostResponse.PostNotFound
   })
-  @Post('like/:postId')
+  @Post('addLike/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async saveLike(@Param('postId') postId: string, @Body() {userId}: BlogLikeDto) {
+  public async saveLike(@Param('postId') postId: string, @Body() {userId}: UserIdDto) {
     await this.blogLikeService.addLike({postId, userId});
   }
 
@@ -132,10 +155,45 @@ export class BlogPostController {
     status: HttpStatus.NOT_FOUND,
     description: BlogPostResponse.PostNotFound
   })
-  @Delete('like/:postId')
+  @Post('removeLike/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async deleteLike(@Param('postId') postId: string, @Body() {userId}: BlogLikeDto) {
+  public async deleteLike(@Param('postId') postId: string, @Body() {userId}: UserIdDto) {
     await this.blogLikeService.removeLike({postId, userId});
   }
 
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: BlogPostResponse.LikeRemoved
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: BlogPostResponse.GetLogin
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: BlogPostResponse.PostNotFound
+  })
+  @Post('sendPosts')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async sendPosts(@Body() dto: UserIdDto) {
+    const {entities} = await this.blogPostService.getAll();
+    this.notifyService.sendEmail(entities.map((post) => post.toPOJO()), dto.userId);
+  }
+
+  @ApiResponse({
+    type: BlogPostWithPaginationRdo,
+    status: HttpStatus.OK,
+    description: BlogPostResponse.PostsFound
+  })
+  @Post('/feed')
+  public async feed(@Query() query: BlogPostQuery, @Body() userIds: string[]) {
+    const postWithPagination = await this.blogPostService.getAll(query, userIds);
+
+    const post = {
+      ...postWithPagination,
+      entities: postWithPagination.entities.map((post) => post.toPOJO())
+    }
+
+    return fillDto(BlogPostWithPaginationRdo, post);
+  }
 }

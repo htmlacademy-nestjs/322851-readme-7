@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BasePostgresRepository } from '@project/data-access';
 import { BlogPostEntity } from '../blog-post.entity';
-import { PaginationResult, Post } from '@project/shared-core';
+import { PaginationResult, Post, SortType } from '@project/shared-core';
 import { BlogPostFactory } from '../blog-post.factory';
 import { PrismaClientService } from '@project/blog-models';
 import { Prisma, PostType } from '@prisma/client';
@@ -46,7 +46,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         likes: {
           create: []
         },
-        video: entity.video ? { create: { ...entity.video  }} : undefined,
+        video: entity.video ? { create: { ...entity.video }} : undefined,
         link: entity.link ? { create: { ...entity.link  }} : undefined,
         quote: entity.quote ? { create: { ...entity.quote  }} : undefined,
         text: entity.text ? { create: { ...entity.text  }} : undefined,
@@ -65,7 +65,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     entity.id = record.id;
   }
 
-  public async find(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
+  public async find(query?: BlogPostQuery, userIds?: string[]): Promise<PaginationResult<BlogPostEntity>> {
     const skip = (query?.page && query?.limit) ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.PostWhereInput = {};
@@ -74,15 +74,41 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     if (query?.tags) {
       where.tags = {
         some: {
-          id: {
+          title: {
             in: query.tags
           }
         }
       }
     }
 
-    if (query?.sortDirection) {
-      orderBy.createdAt = query.sortDirection
+    if (query?.search) {
+      where.text = {
+        title: {
+          contains: query.search
+        }
+      }
+
+      query.limit = (query.limit > 20) ? 20 : query.limit;
+    }
+
+    if (query?.sortBy) {
+      switch (query?.sortBy) {
+        case SortType.DATE:
+          orderBy.createdAt = query.sortDirection;
+          break;
+        case SortType.COMMENTS:
+          orderBy.comments = {_count: query.sortDirection};
+          break;
+        case SortType.LIKES:
+          orderBy.likes = {_count: query.sortDirection};
+          break;
+      }
+    }
+
+    if (userIds.length > 0) {
+      where.userId = {
+        in: userIds
+      }
     }
 
     const [records, postsCount] = await Promise.all([
@@ -145,6 +171,33 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
     return this.createEntityFromDocument(document);
   }
+
+  public async findRepost(originalId: string, userId: string): Promise<BlogPostEntity | null> {
+    const document = await this.client.post.findFirst({
+      where: {
+        originalId,
+        userId
+      },
+      include: {
+        tags: true,
+        video: true,
+        link: true,
+        quote: true,
+        text: true,
+        photo: true,
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          }
+        }
+      }
+    });
+
+    return (document) ? this.createEntityFromDocument(document) : null;
+  }
+
+
 
   public async update(entity: BlogPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
@@ -238,4 +291,5 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       }
     });
   }
+
 }

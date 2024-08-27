@@ -1,0 +1,59 @@
+#create a new user
+POST http://localhost:4000/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "mickey@local.com",
+  "name": "Mickey Mouse",
+  "password": "123456"
+}
+
+###
+
+#Get user by id
+GET http://localhost:4000/api/users/669aef3b7eadb26966f3c2cb HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmNjN2U5ZjA1N2RmNjJhOTgzZmIwNjUiLCJuYW1lIjoiTWlja2V5IE1vdXNlIiwiaWF0IjoxNzI0NzE2MDA4LCJleHAiOjE3MjQ3MTYzMDh9.TaHbDr8JMSA9StsHs_OmuuqDTUptnf84QD-fNt1mBSY
+
+###
+
+#Login user
+POST http://localhost:4000/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "mickey@local.com",
+  "password": "123456"
+}
+
+###
+
+
+#Refresh tokens
+POST http://localhost:4000/api/users/refresh HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsInRva2VuSWQiOiIzMWMxYzg2MS0yMzNkLTQ0MWEtOWM2Yy05OTJiZTkwNDNiYTYiLCJpYXQiOjE3MjQ0NzIwNzgsImV4cCI6MTcyNzA2NDA3OH0.xfQeVitiRO0tUjsyfgwQA48QCA_dDS8gDs4geqqZC-Q
+
+###
+
+# Check user token
+POST http://localhost:4000/api/users/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDU0NzM0MSwiZXhwIjoxNzI0NTQ3NjQxfQ.BoiojRhY7YdGbLe8L67MrLnlsteWZo6Wflccjy5n1Fg
+
+###
+
+# Update Password
+PATCH http://localhost:4000/api/users/update HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM5NTRkYmJmZDMwMzkzOWNlOTJhYTMiLCJuYW1lIjoiU2FsbHkgU2FuZGVycyIsImlhdCI6MTcyNDU0Nzc1MSwiZXhwIjoxNzI0NTQ4MDUxfQ.zxQRpRv1JyBrvFOk82BpxoKkH3pssJl6m0LZbJYRlq0
+
+{
+  "password": "qwerty"
+}
+
+###
+
+# Add subcription
+POST http://localhost:4000/api/users/subscribe/66c954dbbfd303939ce92aa3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmM1MzVkOGFmOTU5NzRjZGIxNDVmNDYiLCJuYW1lIjoiUGVkcm8iLCJpYXQiOjE3MjQ3MDczMTQsImV4cCI6MTcyNDcwNzYxNH0.b9E3k7RQuV5qfmQeB8kHv5-ytYtphQqIUcTMF3JhvFA
+###

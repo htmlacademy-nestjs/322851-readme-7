@@ -40,6 +40,7 @@ export class FileUploaderService {
   }
 
   public async writeFile(file: Express.Multer.File): Promise<StoredFile> {
+
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath();
       const subDirectory = this.getSubUploadDirectoryPath();

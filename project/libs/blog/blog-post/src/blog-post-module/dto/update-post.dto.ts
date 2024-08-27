@@ -10,29 +10,20 @@ import { UpdateLinkPostDto } from './update-link-post.dto';
 
 export class UpdatePostDto {
   @ApiProperty({
-    description: 'Repost flag',
-    example: 'true'
-  })
-  @IsOptional()
-  @IsBoolean({message: BlogPostValidateMessage.WrongRepostStatus})
-  public isRepost: boolean;
-
-  @ApiProperty({
-    description: 'If Repost flag is true, shows the original post ID. ',
-    example: '0a7cbc9e-9754-4187-ad0f-5b99d4b0814b'
-  })
-  @IsOptional()
-  @IsString()
-  @IsUUID('all',{message: BlogPostValidateMessage.InvalidPostId})
-  public originalId?: string;
-
-  @ApiProperty({
-    description: 'If Repost flag is true, shows the original post author ID.',
+    description: 'Author ID.',
     example: '669aef3b7eadb26966f3c2cb'
   })
   @IsOptional()
   @IsMongoId({message: BlogPostValidateMessage.InvalidUserId})
-  public originalAuthor?: string;
+  public userId?: string;
+
+  @ApiProperty({
+    description: 'IsPublished flag',
+    example: 'true'
+  })
+  @IsOptional()
+  @IsBoolean({message: BlogPostValidateMessage.WrongRepostStatus})
+  public isPublished?: boolean;
 
   @ApiProperty({
     description: 'List of tags titles',

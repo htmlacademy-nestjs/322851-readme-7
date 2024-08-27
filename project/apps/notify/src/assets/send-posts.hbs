@@ -1,0 +1,10 @@
+<h2>Привет, {{subscriber.name}}!! Новые публикации из ваших подписок:</h2>
+<ul class="post-list">
+  {{#each posts}}
+  <li>
+    <a href="http://localhost:4000/api/posts/{{this.id}}">
+      {{this.type}} post of user {{this.userId}} created at {{this.createdAt}}
+    </a>
+  </li>
+  {{/each}}
+</ul>

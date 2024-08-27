@@ -3,6 +3,9 @@ import { Entity, StorableEntity, Subscriber } from '@project/shared-core';
 export class EmailSubscriberEntity extends Entity implements StorableEntity<Subscriber> {
   public email: string;
   public name: string;
+  public subscriptions: string[];
+  public lastEmailDate: Date;
+  public subscriberId: string;
 
   constructor(subscriber?: Subscriber) {
     super();
@@ -14,7 +17,10 @@ export class EmailSubscriberEntity extends Entity implements StorableEntity<Subs
     if (subscriber) {
       this.email = subscriber.email;
       this.name = subscriber.name;
+      this.lastEmailDate = subscriber.lastEmailDate ?? new Date();
+      this.subscriptions = subscriber.subscriptions ?? [];
       this.id = subscriber.id ?? '';
+      this.subscriberId = subscriber.subscriberId
     }
   }
 
@@ -22,7 +28,10 @@ export class EmailSubscriberEntity extends Entity implements StorableEntity<Subs
     return {
       email: this.email,
       name: this.name,
-      id: this.id
+      id: this.id,
+      subscriptions: this.subscriptions,
+      lastEmailDate: this.lastEmailDate,
+      subscriberId: this.subscriberId
     }
   }
 

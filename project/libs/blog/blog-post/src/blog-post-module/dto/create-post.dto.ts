@@ -26,6 +26,14 @@ export class CreatePostDto {
   public isRepost: boolean;
 
   @ApiProperty({
+    description: 'IsPublished flag',
+    example: 'true'
+  })
+  @IsOptional()
+  @IsBoolean({message: BlogPostValidateMessage.WrongRepostStatus})
+  public isPublished?: boolean;
+
+  @ApiProperty({
     description: 'If Repost flag is true, shows the original post ID. ',
     example: '0a7cbc9e-9754-4187-ad0f-5b99d4b0814b'
   })

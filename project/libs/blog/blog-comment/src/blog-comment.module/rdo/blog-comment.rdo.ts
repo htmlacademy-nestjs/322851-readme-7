@@ -3,6 +3,13 @@ import { Expose } from 'class-transformer'
 
 export class BlogCommentRdo {
   @ApiProperty({
+    description: 'ID of the comment',
+    example: '52113039-e14e-400e-ae1f-c68cef104bb0'
+  })
+  @Expose()
+  id: string;
+
+  @ApiProperty({
     description: 'Text of the comment',
     example: 'Test text of the comment'
   })

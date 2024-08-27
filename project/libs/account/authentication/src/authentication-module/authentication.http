@@ -1,0 +1,53 @@
+#create a new user
+POST http://localhost:3333/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "pedro@notfound.local",
+  "name": "Pedro",
+  "password": "123456"
+}
+
+###
+
+#Get user by id
+GET http://localhost:3333/api/auth/669aef3b7eadb26966f3c2cb HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjlhZWYzYjdlYWRiMjY5NjZmM2MyY2IiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiSXZhbiBJdmFub3YiLCJpYXQiOjE3MjI3OTEyOTEsImV4cCI6MTcyMjc5MTU5MX0.LWJu9492grxQP9tOvW_XuXpU-alBLbKtfDp4daLMtm0
+
+###
+
+#Login user
+POST http://localhost:3333/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "password": "654231"
+}
+
+###
+
+
+#Refresh tokens
+POST http://localhost:3333/api/auth/refresh HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjlhZWYzYjdlYWRiMjY5NjZmM2MyY2IiLCJuYW1lIjoiNjY5YWVmM2I3ZWFkYjI2OTY2ZjNjMmNiIiwidG9rZW5JZCI6IjIwMDlkNDgxLTViYWEtNGM0MS04MWQ3LWY5MWIwYTc3NWFmYyIsImlhdCI6MTcyNDI4MTE2MywiZXhwIjoxNzI2ODczMTYzfQ.rF6OaQ7h5dXOGT6l_3WwTkc5iPG-jrbmBSmo9H--yOM
+
+###
+
+# Check user token
+POST http://localhost:3333/api/auth/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDQwMzJmYmU0Y2FlYjg2OGM2ZWVjMzYiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNjgzMTIxMzU1LCJleHAiOjE2ODMxMjE5NTV9.laK4-SAzu_ZMznRVsRWrHxELTGu_P48kpY_CwHPjxtk
+
+###
+
+# Update Password
+PATCH http://localhost:3333/api/auth/update HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjlhZWYzYjdlYWRiMjY5NjZmM2MyY2IiLCJuYW1lIjoiSXZhbiBJdmFub3YiLCJpYXQiOjE3MjQ1NDczMDIsImV4cCI6MTcyNDU0NzYwMn0.e85uu8JgeozV_a50n50SPoOnjIF2lXjbWFNv-JB1nYc
+
+{
+  "password": "654231"
+}
+
+###

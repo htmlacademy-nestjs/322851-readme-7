@@ -22,3 +22,7 @@ export { File } from './lib/interfaces/file.interface';
 export { StoredFile } from './lib/interfaces/stored-file.interface';
 export { Subscriber } from './lib/interfaces/subscriber.interface';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
+export { JwtToken } from './lib/interfaces/jwt-token.interace';
+export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';
+export { RequestWithTokenPayload } from './lib/interfaces/request-with-token-payload';
+export { SortType } from './lib/interfaces/sort-type.interface';

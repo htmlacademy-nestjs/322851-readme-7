@@ -9,6 +9,13 @@ import { TextPostRdo } from './blog-text-post.rdo';
 
 export class BlogPostRdo {
   @ApiProperty({
+    description: 'Id of the post',
+    example: '0a7cbc9e-9754-4187-ad0f-5b99d4b0814b'
+  })
+  @Expose()
+  public id: string;
+
+  @ApiProperty({
     description: 'One of the five type: video, photo, text, link, quote',
     example: 'Video'
   })
