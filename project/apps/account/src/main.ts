@@ -1,8 +1,3 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
@@ -12,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationError } from 'class-validator';
 
 async function bootstrap() {
+  const GLOBAL_PREFIX = 'api';
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
@@ -28,14 +24,14 @@ async function bootstrap() {
     exceptionFactory: (errors: ValidationError[]) => errors.toString()
   }));
 
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
+
+  app.setGlobalPrefix(GLOBAL_PREFIX);
 
   const configService = app.get(ConfigService);
   const port = configService.get('application.port');
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`
   );
 }
 
