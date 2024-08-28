@@ -27,11 +27,7 @@ export class BlogCommentController {
   })
   @Get('/:postId')
   public async show(@Param('postId') postId: string, @Query() query: BlogCommentQuery) {
-    const commentsWithPagination = await this.blogCommentService.getComments(postId, query);
-    const comments = {
-      ...commentsWithPagination,
-      entities: commentsWithPagination.entities.map((comment) => comment.toPOJO())
-    }
+    const comments = await this.blogCommentService.getComments(postId, query);
     return fillDto(BlogCommentWithPaginationRdo,  comments);
   }
 

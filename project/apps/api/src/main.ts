@@ -1,8 +1,3 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
@@ -14,6 +9,7 @@ import { AuthenticationModule } from '@project/authentication';
 import { BlogCommentModule } from '@project/blog-comment';
 
 async function bootstrap() {
+  const GLOBAL_PREFIX = 'api';
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
@@ -31,13 +27,13 @@ async function bootstrap() {
   });
   SwaggerModule.setup('spec', app, document)
 
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
+
+  app.setGlobalPrefix(GLOBAL_PREFIX);
   app.useGlobalInterceptors(new RequestIdIterceptor());
   const port = 4000;
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`
   );
 }
 

@@ -15,14 +15,21 @@ export class BlogCommentService {
     private readonly blogPostService: BlogPostService
   ) {}
 
-  public async getComments(postId: string, query?: BlogCommentQuery): Promise<PaginationResult<BlogCommentEntity>> {
+  public async getComments(postId: string, query?: BlogCommentQuery): Promise<PaginationResult<ReturnType<BlogCommentEntity['toPOJO']>>> {
     const existPost = await this.blogPostService.getPost(postId);
 
     if (! existPost) {
       throw new NotFoundException(`Post with id ${postId} not found`);
     }
 
-    return this.commentRepository.findByPostId(postId, query);
+    const commentsWithPagination = await this.commentRepository.findByPostId(postId, query);
+
+    const comments = {
+      ...commentsWithPagination,
+      entities: commentsWithPagination.entities.map((comment) => comment.toPOJO())
+    };
+
+    return comments;
   }
 
   public async createComment(dto: CreateCommentDto, postId: string): Promise<BlogCommentEntity> {
